@@ -51,35 +51,44 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.get("/new-post", (req, res) => {
-  res.render("index");
+  res.render("index"); // update with other page
 });
 app.get("/view-my-listings", (req, res) => {
-  res.render("index");
+  res.render("index"); // update with other page
 });
 app.get("/alter-listing", (req, res) => {
-  res.render("index");
+  res.render("index"); // update with other page
 });
 // OR JUST /:product_id
 app.get("/product/:product_id", (req, res) => {
-  res.render("index");
+  res.render("index"); // update with other page
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
 
 });
-app.post('/', (req, res) => {
+app.post('/login', (req, res) => {
+
+})
+app.post('/new-post', (req, res) => {
+
+  // after taking the req
+  res.redirect('/view-my-listings')
+});
+app.post('/view-my-listings/:product_id/delete', (req, res) => {
+
+  // after delete
+  res.redirect('/view-my-listings')
+});
+app.post('/product/:product_id', (req, res) => {
 
 });
-app.post('/', (req, res) => {
 
-});
-app.post('/', (req, res) => {
+// STRETCH
+// app.post('/alter-listing', (req, res) => {
 
-});
-app.post('/', (req, res) => {
-
-});
+// });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SERVER LISTENING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.listen(PORT, () => {
