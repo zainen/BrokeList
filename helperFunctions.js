@@ -1,4 +1,4 @@
-const getUserId = () => {
+const getUserId = (user, db) => {
 
 }
 
