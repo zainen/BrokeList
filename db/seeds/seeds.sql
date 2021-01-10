@@ -30,7 +30,7 @@ VALUES (1, 7),
   (4, 1),
   (4, 3),
   (5, 1),
-  (5, 2)
+  (5, 2),
   (5, 3);
 
 INSERT INTO photos (listing_id, is_cover)
