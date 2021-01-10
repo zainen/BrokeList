@@ -13,6 +13,40 @@
 
   <body>
     <%- include('partials/header') %>
-    <h1>new-listing.ejs!</h1>
+    <h1>Create a New Listing</h1>
+
+    <div>
+      <form method="POST" name="new-listing">
+        <label>
+          Fill out the fields below to post your new listing!
+        </label>
+        <div>
+          <label for="title">Enter your listing title::</label>
+          <input type='text' name="title">
+        </div>
+        <div>
+          <label for="price_in_cents">Enter the price (cents):</label>
+          <input type='text' name="price_in_cents" >
+        </div>
+        <div>
+          <label for="description">Enter the listing description:</label>
+          <input type='text' name="description">
+        </div>
+        <div>
+          <label for="description">Cover Photo URL:</label>
+          <input type='text' name="location" placeholder="Cover Photo URL.">
+        </div>
+        <div>
+          <label for="description">Additional photo URL:</label>
+          <input type='text' name="location" placeholder=" Additional Photo URL">
+        </div>
+        <div>
+          <label for="description">Additional photo URL:</label>
+          <input type='text' name="location" placeholder="Additional Photo URL.">
+        </div>
+          <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
