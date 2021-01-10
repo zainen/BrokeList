@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>BrokeList Listing</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -13,6 +13,35 @@
 
   <body>
     <%- include('partials/header') %>
-    <h1>listing.ejs</h1>
+    <div>
+      <div class='name-price'>
+        <h1>listing.ejs</h1>
+        <h2 id='price'>price$$</h2>
+      </div>
+      <img src="./public/media/default.jpg">
+    </div>
+
+    <div>
+      <h4>
+        DESCRIPTION
+      </h4>
+      <p>
+        injected description
+      </p>
+    </div>
+
+    <div>
+      <form method="POST" name="email_seller">
+        <label>
+          Interested? Email the seller below...
+        </label>
+        <div>
+          <input type='text' name="inquiry" placeholder="Enter your message to the seller.">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
+
+
