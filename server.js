@@ -50,7 +50,6 @@ app.use('/api/widgets', widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER GET REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
-
   res.render('main');
 });
 app.get('/new-listing', (req, res) => {
@@ -76,19 +75,19 @@ app.post('/', (req, res) => {
 
 // become user
 // })
-app.post('/new-post', (req, res) => {
+app.post('/new-listing', (req, res) => {
 
   // new post data -> saved to db
 
   // after taking the req
-  res.redirect('/view-my-listings')
+  res.redirect('/my-listings')
 });
-app.post('/view-my-listings/:listing_id/delete', (req, res) => {
+app.post('/my-listings/:listing_id/delete', (req, res) => {
 
   //check user_id with listing(user_id)
 
   // after delete
-  res.redirect('/view-my-listings')
+  res.redirect('/my-listings')
 });
 app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
