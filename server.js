@@ -37,6 +37,7 @@ app.use(express.static('public'));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require('./routes/users');
 const widgetsRoutes = require('./routes/widgets');
+const { response } = require('express');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -49,6 +50,9 @@ app.use('/api/widgets', widgetsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER GET REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// functions write html to then get rendered by get requests
+
 app.get('/', (req, res) => {
   res.render('main');
 });
@@ -56,6 +60,7 @@ app.get('/new-listing', (req, res) => {
   res.render('new-listing'); // update with other page
 });
 app.get('/my-listings', (req, res) => {
+  console.log('through me ')
   res.render('my-listings'); // update with other page
 });
 // app.get('/alter-listing', (req, res) => {
@@ -76,23 +81,31 @@ app.post('/', (req, res) => {
 // become user
 // })
 app.post('/new-listing', (req, res) => {
-
+  console.log(req.body.title)
   // new post data -> saved to db
 
   // after taking the req
   res.redirect('/my-listings')
 });
+
+
+
+app.post('/my-listings/:listing_id/sold', (req, res) => {
+  //write function change is_sold to true
+
+  console.log(!req.body.sold)
+  // res.redirect('/my-listings')
+});
 app.post('/my-listings/:listing_id/delete', (req, res) => {
+  // write function clear listing from db
 
-  //check user_id with listing(user_id)
-
-  // after delete
-  res.redirect('/my-listings')
+  // res.redirect('/my-listings')
 });
 app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
-
+  console.log(req.body)
   //message to user message sent
+
 });
 
 // STRETCH

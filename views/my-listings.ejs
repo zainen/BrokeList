@@ -15,40 +15,46 @@
     <%- include('partials/header') %>
 
     <!-- Active listings -->
-
-    <div>
-      <h1>
-        Active listings
-      </h1>
-
+    <!-- entire page -->
+    <h1>Active listings</h1>
       <div class = "listings">
-        <img src="To fill in later">
-        Description goes here
-
         <div>
-          <button type="button">Sold</button>
-          <button type="button">Delete</button>
+          <!-- inject id to href -->
+          <a href="/listing/1">
+            <img src="To fill in later">
+            Description goes here
+          </a>
         </div>
 
+        <article>
+          <!-- my-listings/:listing_id/sold -->
+          <form method="POST" action="my-listings/2/sold">
+            <button type="submit" name="sold">Sold</button>
+          </form>
+          <!-- action my-listings/:listing_id/delete -->
+          <form method="POST" action="my-listings/2/delete">
+            <button type="submit" name="delete">Delete</button>
+          </form>
+        </article>
+
       </div>
-    </div>
 
       <!-- Sold listings -->
 
-    <div>
-      <h1>Sold listings</h1>
+    <h1>Sold listings</h1>
 
       <div class = "listings">
-        <img src="To fill in later">
-        Description goes here
-
-        <div>
+        <a href="/listing/1">
+          <img src="To fill in later">
+          Description goes here
+        </a>
+        <!-- listing/:listing_id/delete -->
+        <form method="POST" action="my-listings/1/delete">
           <button type="button">Delete</button>
-        </div>
+        </form>
 
       </div>
 
-    </div>
 
   </body>
 </html>
