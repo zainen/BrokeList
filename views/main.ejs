@@ -18,7 +18,9 @@
     </h1>
     <!-- featured order -->
     <div class="product">
-      <img src="to fill out later" alt="">
+      <a href="/listing/<%= listing_id %>">
+        <img src="to fill out later" alt="">
+      </a>
       <div>
         <h4>title</h4>
         <button>view</button>
@@ -36,7 +38,8 @@
         <p>price</p>
       </div>
       <div>
-        <button>view</button>
+        <!-- href needs to include listing id -->
+        <a href="/listing/<%= listing_id %>">view listing</a>
         <button>favourite</button>
       </div>
     </div>
