@@ -16,6 +16,8 @@ const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
 
+
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -48,20 +50,21 @@ app.use('/api/widgets', widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER GET REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
+
   res.render('main');
 });
 app.get('/new-listing', (req, res) => {
   res.render('new-listing'); // update with other page
 });
-app.get('/view-my-listings', (req, res) => {
+app.get('/my-listings', (req, res) => {
   res.render('my-listings'); // update with other page
 });
 // app.get('/alter-listing', (req, res) => {
 //   res.render('new-li'); // update with other page
 // });
-// OR JUST /:product_id
-app.get('/product/:product_id', (req, res) => {
-  res.render('product'); // update with other page
+// OR JUST /:listing_id
+app.get('/listing/:listing_id', (req, res) => {
+  res.render('listing'); // update with other page
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,15 +83,14 @@ app.post('/new-post', (req, res) => {
   // after taking the req
   res.redirect('/view-my-listings')
 });
-app.post('/view-my-listings/:product_id/delete', (req, res) => {
+app.post('/view-my-listings/:listing_id/delete', (req, res) => {
 
   //check user_id with listing(user_id)
 
   // after delete
   res.redirect('/view-my-listings')
 });
-app.post('/product/:product_id', (req, res) => {
-
+app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
 
   //message to user message sent
