@@ -6,7 +6,6 @@ const PORT       = process.env.PORT || 8080;
 const ENV        = process.env.ENV || 'development';
 const express    = require('express');
 const bodyParser = require('body-parser');
-const sass       = require('node-sass-middleware');
 const app        = express();
 const morgan     = require('morgan');
 
@@ -25,12 +24,6 @@ app.use(morgan('dev'));
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/styles', sass({
-  src: __dirname + '/styles',
-  dest: __dirname + '/public/styles',
-  debug: true,
-  outputStyle: 'expanded'
-}));
 app.use(express.static('public'));
 
 // Separated Routes for each Resource
@@ -57,7 +50,6 @@ app.use('/listings', getListings(db))
 // functions write html to then get rendered by get requests
 
 // templateVars.listings = response.rows
-
 app.get('/', (req, res) => {
   //inject html with database
   // helpers.listings()
@@ -67,6 +59,7 @@ app.get('/', (req, res) => {
     FROM listings
     JOIN photos ON listing_id = listings.id;`)
     .then(response => {
+      console.log('Inside the then');
       let templateVars = {};
       templateVars.listings = response.rows;
       res.render('main', templateVars);
