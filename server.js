@@ -38,6 +38,7 @@ app.use(express.static('public'));
 const usersRoutes = require('./routes/users');
 const widgetsRoutes = require('./routes/widgets');
 const { response } = require('express');
+const { resolveInclude } = require('ejs');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -54,8 +55,16 @@ app.use('/api/widgets', widgetsRoutes(db));
 // functions write html to then get rendered by get requests
 
 app.get('/', (req, res) => {
+  //inject html with database
   res.render('main');
 });
+
+// add :min&:max
+app.get('/filtered', (req, res) => {
+  //inject html with filtered database
+  res.render('main')
+})
+
 app.get('/new-listing', (req, res) => {
   res.render('new-listing'); // update with other page
 });
@@ -96,9 +105,27 @@ app.post('/my-listings/:listing_id/sold', (req, res) => {
   console.log(!req.body.sold)
   // res.redirect('/my-listings')
 });
+
+const favourites = (user) => {
+  const values = [user]
+  db.query(`
+  SELECT *
+  FROM favourites
+  JOIN users ON users.id = user_id
+  JOIN listings ON listings.id = listing_id
+  WHERE users.id = $1
+  `, values)
+  .then(response => {
+    return response.rows.forEach((item) => {
+      // function to write html and
+      console.log(item)
+    })
+  })
+}
+
 app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
-
+  favourites(1)
   // res.redirect('/my-listings')
 });
 app.post('/listing/:listing_id', (req, res) => {
@@ -108,6 +135,10 @@ app.post('/listing/:listing_id', (req, res) => {
 
 });
 
+//add :min&:max
+app.post('/filter', (req, res) => {
+  res.redirect('/filtered')
+})
 // STRETCH
 // app.post('/alter-listing', (req, res) => {
 

@@ -2,19 +2,22 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // write HTML cell all
 
-/* <div>
-<a href="/listing/1">
-  <img src="to fill later" alt="./public/media/default.jpg">
-</a>
-<div>
-  <h3>Title</h3>
-  <p>price</p>
-</div>
-<div>
-  <a href="/listing/1">view listing</a>
+const basicCell = () => {
+
+const toAdd =`<div>
+  <a href="/listing/${1}">
+  <img src="${1}" alt="./public/media/default.jpg">
+  </a>
+  <div>
+  <h3>${'listing_title'}</h3>
+  <p>${'listing_title'}</p>
+  </div>
+  <div>
+  <a href="/listing/${1}">view listing</a>
   <button>favourite</button>
-</div>
-</div> */
+  </div>
+  </div> `
+}
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //write favourite HTML cell
