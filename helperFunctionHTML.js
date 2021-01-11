@@ -1,3 +1,9 @@
+// <% for (listing of listings) %>
+// <% <div class="product"> %>
+// <% <a href="/listing/:listing_id" %>
+
+
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // write HTML cell all
@@ -17,7 +23,10 @@ const toAdd =`<div>
   <button>favourite</button>
   </div>
   </div> `
+
+  return toAdd
 }
+exports.basicCell = basicCell;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //write favourite HTML cell

@@ -22,31 +22,25 @@
     </form>
   </div>
 
-
-    <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" href="#">Action</a>
-      <a class="dropdown-item" href="#">Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-    </div>
-  </div> -->
-
     <h1>
       New Listings
     </h1>
     <!-- featured order -->
-
     <div class="product">
       <a href="/listing/1">
         <img src="to fill out later" alt="./BrokeList/public/media/default.jpg">
       </a>
       <div>
         <h4>title</h4>
-        <button>view</button>
+        <form method="POST" action="/listing/:listing_id">
+          <button type="submit">view</button>
+
+        </form>
       </div>
       <div>
         <h4>price</h4>
         <form method="POST" action="/listing/favourite">
-          <button>favourite</button>
+          <button type="submit">favourite</button>
         </form>
       </div>
     </div>
@@ -54,20 +48,22 @@
     <br>
     <br>
     <!-- other listings orders -->
-    <div>
-      <a href="/listing/1">
-        <img src="to fill later" alt="./public/media/default.jpg">
-      </a>
+    <% for (listing of listings) { %>
       <div>
-        <h3>Title</h3>
-        <p>price</p>
+        <a href="/listing/<% listing.id %>">
+          <img src="<% listing.location %>" alt="./public/media/default.jpg">
+        </a>
+        <div>
+          <h3>Title</h3>
+          <p>price</p>
+        </div>
+        <div>
+          <a href="/listing/<% listing.id %>">view listing</a>
+          <form method="POST" action="/listing/favourite">
+            <button type="submit">favourite</button>
+          </form>
+        </div>
       </div>
-      <div>
-        <a href="/listing/1">view listing</a>
-        <form method="POST" action="/listing/favourite">
-          <button type="submit">favourite</button>
-        </form>
-      </div>
-    </div>
+      <% } %>
   </body>
 </html>

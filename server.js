@@ -16,7 +16,7 @@ const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
 
-
+const helpers = require('./helperFunctionsSQL.js')
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -37,6 +37,7 @@ app.use(express.static('public'));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require('./routes/users');
 const widgetsRoutes = require('./routes/widgets');
+const getListings = require('./routes/listings')
 const { response } = require('express');
 const { resolveInclude } = require('ejs');
 
@@ -44,6 +45,7 @@ const { resolveInclude } = require('ejs');
 // Note: Feel free to replace the example routes below with your own
 app.use('/api/users', usersRoutes(db));
 app.use('/api/widgets', widgetsRoutes(db));
+app.use('/listings', getListings(db))
 // Note: mount other resources here, using the same pattern above
 
 
@@ -54,30 +56,50 @@ app.use('/api/widgets', widgetsRoutes(db));
 
 // functions write html to then get rendered by get requests
 
+// templateVars.listings = response.rows
+
 app.get('/', (req, res) => {
   //inject html with database
-  res.render('main');
+  // helpers.listings()
+  const listings = () => {
+    return db.query(`
+    SELECT *
+    FROM listings
+    JOIN photos ON listing_id = listings.id;`)
+    .then(response => {
+      let templateVars = {};
+      templateVars.listings = response.rows;
+      res.render('main', templateVars);
+    })
+  }
+  listings();
+  // templateVars = listings()
+  // // console.log(templateVars)
+  // res.render('main', templateVars);
 });
 
 // add :min&:max
 app.get('/filtered', (req, res) => {
+  templateVars = ''
   //inject html with filtered database
-  res.render('main')
+  res.render('main', templateVars)
 })
 
 app.get('/new-listing', (req, res) => {
-  res.render('new-listing'); // update with other page
+  templateVars = ''
+  res.render('new-listing', templateVars); // update with other page
 });
 app.get('/my-listings', (req, res) => {
-  console.log('through me ')
-  res.render('my-listings'); // update with other page
+  templateVars = ''
+  res.render('my-listings', templateVars); // update with other page
 });
 // app.get('/alter-listing', (req, res) => {
 //   res.render('new-li'); // update with other page
 // });
 // OR JUST /:listing_id
 app.get('/listing/:listing_id', (req, res) => {
-  res.render('listing'); // update with other page
+  templateVars = ''
+  res.render('listing', templateVars); // update with other page
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,6 +142,12 @@ const favourites = (user) => {
       // function to write html and
       console.log(item)
     })
+  })
+  .catch(err => {
+    return `Error: ${err}`
+  })
+  .catch(err => {
+    return `Error: ${err}`
   })
 }
 
