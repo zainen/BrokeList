@@ -81,3 +81,9 @@ const soldListings = () => {
 };
 exports.soldListings = soldListings;
 
+const checkUser = (user) => {
+  const values = [user]
+  return db.query(`
+  SELECT * FROM users WHERE name === $1`, values)
+}
+exports.checkUser = checkUser;

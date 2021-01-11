@@ -104,7 +104,13 @@ app.get('/listing/:listing_id', (req, res) => {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
-
+  const user = req.body.user
+  helpers.checkUser(user)
+  .then(response => {
+    if (response.rows[0].name === user) {
+      console.log(':D')
+    }
+  })
 // filter
 });
 // app.post('/login', (req, res) => {
