@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  padding: 1.5%;
+  flex-wrap: nowrap;
+  background-color: rgb(168, 255, 178);
+}
+
+.container a {
+  padding-left: 2.2em;
+  padding-right: 2.2em;
+}
