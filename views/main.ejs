@@ -22,10 +22,10 @@
     </form>
   </div>
 
-    <h1>
+    <!-- <h1>
       New Listings
     </h1>
-    <!-- featured order -->
+    featured order
     <div class="product">
       <a href="/listing/1">
         <img src="to fill out later" alt="./BrokeList/public/media/default.jpg">
@@ -43,22 +43,23 @@
           <button type="submit">favourite</button>
         </form>
       </div>
-    </div>
+    </div> -->
     <!-- replace br with css styling -->
     <br>
     <br>
     <!-- other listings orders -->
     <% for (listing of listings) { %>
+      <% console.log(listing.title) %>
       <div>
-        <a href="/listing/<% listing.id %>">
-          <img src="<% listing.location %>" alt="./public/media/default.jpg">
+        <a href="/listing/<%= listing.id %>">
+          <img src="<%= listing.location %>" alt="./public/media/default.jpg">
         </a>
         <div>
-          <h3>Title</h3>
-          <p>price</p>
+          <h3><%= listing.title %></h3>
+          <p><%= listing.price_in_cents %></p>
         </div>
         <div>
-          <a href="/listing/<% listing.id %>">view listing</a>
+          <a href="/listing/<%= listing.id %>">view listing</a>
           <form method="POST" action="/listing/favourite">
             <button type="submit">favourite</button>
           </form>
