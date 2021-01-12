@@ -55,15 +55,16 @@ app.use('/listings', getListings(db))
 app.get('/', (req, res) => {
   //inject html with database
   // helpers.listings()
+  const haveCookie = req.cookies.id
   const listings = () => {
     return db.query(`
     SELECT *
     FROM listings
     JOIN photos ON listing_id = listings.id;`)
     .then(response => {
-      console.log('Inside the then');
       let templateVars = {};
       templateVars.listings = response.rows;
+      templateVars.cookies = req.cookies.id;
       res.render('main', templateVars);
     })
   }
