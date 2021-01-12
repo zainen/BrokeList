@@ -36,7 +36,7 @@ const newListingPhoto = (items) => {
 exports.newListingPhoto = newListingPhoto;
 
 // filterFavourite
-const favourites = (user) => {
+const favourites = (user, res) => {
   const values = [user]
   db.query(`
   SELECT *
@@ -44,6 +44,10 @@ const favourites = (user) => {
   JOIN listings ON listings.id = listing_id
   WHERE favourites.user_id = $1;
   `, values)
+  .then(response => {
+    templateVars.listings = response.rows
+    res.render('main', templateVars)
+  })
 }
 exports.favourites = favourites;
 
