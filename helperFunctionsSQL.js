@@ -23,6 +23,7 @@ const filterPrice = (min, max) => {
 exports.filterPrice = filterPrice;
 
 const newListing = (user_id, title, price_in_cents, description, photo) => {
+
   const values = [user_id, title, price_in_cents, description, photo];
   return db.query(`
   INSERT INTO listings (user_id, title, price_in_cents, description)
@@ -81,9 +82,9 @@ const soldListings = () => {
 };
 exports.soldListings = soldListings;
 
-const checkUser = (user) => {
-  const values = [user]
+const checkUser = (id) => {
+  const values = [id]
   return db.query(`
-  SELECT * FROM users WHERE name === $1`, values)
+  SELECT * FROM users WHERE id = $1`, values)
 }
 exports.checkUser = checkUser;

@@ -6,6 +6,7 @@ const PORT       = process.env.PORT || 8080;
 const ENV        = process.env.ENV || 'development';
 const express    = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const app        = express();
 const morgan     = require('morgan');
 
@@ -25,6 +26,7 @@ app.use(morgan('dev'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(cookieParser());
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -100,18 +102,34 @@ app.post('/', (req, res) => {
   const user = req.body.user
   helpers.checkUser(user)
   .then(response => {
-    if (response.rows[0].name === user) {
-      console.log(':D')
+    if (response.rows[0].id === Number(user)) {
+      res.cookie('id', user)
+      console.log(req.cookies.id)
+      console.log(req.cookies)
+      req.cookies.user_id = user
+      res.redirect('/')
     }
+  })
+  .catch(err => {
+    console.log(err)
   })
 // filter
 });
+app.post('/logout', (req, res) => {
+  res.clearCookie('id')
+  res.redirect('/')
+});
+
 // app.post('/login', (req, res) => {
 
 // become user
 // })
 app.post('/new-listing', (req, res) => {
-  console.log(req.body.title)
+  console.log(req.body)
+  const title = req.body.title
+  const price = req.body.price_in_cents
+  const description = req.body.description
+  const location = req.body.location[0]
   // new post data -> saved to db
 
   // after taking the req
