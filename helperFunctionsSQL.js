@@ -22,18 +22,13 @@ const filterPrice = (min, max) => {
 };
 exports.filterPrice = filterPrice;
 
-const newListing = (user_id, title, price_in_cents, description, photo) => {
-
-  const values = [user_id, title, price_in_cents, description, photo];
+const newListing = (arr) => {
   return db.query(`
   INSERT INTO listings (user_id, title, price_in_cents, description)
   VALUES ($1, $2, $3, $4);
   INSERT INTO photos (location)
   VALUES ($5);
-  `, values)
-  .then(response => {
-    return response.rows
-  })
+  `, arr)
 };
 exports.newListing = newListing;
 

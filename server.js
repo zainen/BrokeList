@@ -125,11 +125,18 @@ app.post('/logout', (req, res) => {
 // become user
 // })
 app.post('/new-listing', (req, res) => {
+  const user = req.cookies.id
+  console.log(req.cookies.id)
   console.log(req.body)
   const title = req.body.title
   const price = req.body.price_in_cents
   const description = req.body.description
   const location = req.body.location[0]
+  const values = [user, title, price, description, location];
+  helpers.newListing(values)
+  .then(response => {
+    console.log(response.rows)
+  })
   // new post data -> saved to db
 
   // after taking the req
@@ -140,7 +147,6 @@ app.post('/new-listing', (req, res) => {
 
 app.post('/my-listings/:listing_id/sold', (req, res) => {
   //write function change is_sold to true
-
   console.log(!req.body.sold)
   // res.redirect('/my-listings')
 });
