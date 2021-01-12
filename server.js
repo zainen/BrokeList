@@ -56,13 +56,7 @@ app.get('/', (req, res) => {
   //inject html with database
   // helpers.listings()
   const haveCookie = req.cookies.id
-  const listings = () => {
-    return db.query(`
-    SELECT *
-    FROM listings
-    JOIN photos ON listing_id = listings.id;`)
-  }
-  listings()
+  helpers.listings()
   .then(response => {
     let templateVars = {};
     templateVars.listings = response.rows;
@@ -83,9 +77,7 @@ app.get('/filtered', (req, res) => {
 
 app.get('/new-listing', (req, res) => {
   templateVars = {}
-  console.log(req.cookies.id)
   templateVars.cookies = req.cookies.id;
-  console.log(templateVars.cookies)
   res.render('new-listing', templateVars); // update with other page
 });
 app.get('/my-listings', (req, res) => {
@@ -133,16 +125,24 @@ app.post('/logout', (req, res) => {
 // })
 app.post('/new-listing', (req, res) => {
   const user = req.cookies.id
-  console.log(req.cookies.id)
-  console.log(req.body)
   const title = req.body.title
   const price = req.body.price_in_cents
   const description = req.body.description
   const location = req.body.location[0]
-  const values = [user, title, price, description, location];
+  const values = [user, title, price, description];
   helpers.newListing(values)
   .then(response => {
-    console.log(response.rows)
+    helpers.getNewestListing()
+    .then(r => {
+      const id = r.rows[0].id
+      console.log(id)
+      const photoValues = [location, id]
+      helpers.newListingPhoto(photoValues)
+      .then(res => {
+        return res.rows
+      })
+    })
+    return response.rows
   })
   // new post data -> saved to db
 

@@ -26,11 +26,17 @@ const newListing = (arr) => {
   return db.query(`
   INSERT INTO listings (user_id, title, price_in_cents, description)
   VALUES ($1, $2, $3, $4);
-  INSERT INTO photos (location)
-  VALUES ($5);
   `, arr)
 };
 exports.newListing = newListing;
+
+const newListingPhoto = (items) => {
+  return db.query(`
+  INSERT INTO photos (location, listing_id)
+  VALUES ($1, $2);
+  `, items)
+}
+exports.newListingPhoto = newListingPhoto;
 
 // filterFavourite
 const favourites = (user) => {
@@ -51,16 +57,25 @@ const favourites = (user) => {
 }
 exports.favourites = favourites;
 
+const getNewestListing = () => {
+  return db.query(`
+  SELECT *
+  FROM listings
+  ORDER BY id DESC
+  LIMIT 1
+  `)
+}
+
+exports.getNewestListing = getNewestListing;
+
 // listings
 const listings = () => {
   return db.query(`
   SELECT *
   FROM listings
+  JOIN photos ON listings.id = listing_id
   WHERE is_sold = false;
   `)
-  .then(response => {
-    console.log(response.rows)
-  })
 };
 exports.listings = listings
 
