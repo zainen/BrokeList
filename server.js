@@ -61,14 +61,14 @@ app.get('/', (req, res) => {
     SELECT *
     FROM listings
     JOIN photos ON listing_id = listings.id;`)
-    .then(response => {
-      let templateVars = {};
-      templateVars.listings = response.rows;
-      templateVars.cookies = req.cookies.id;
-      res.render('main', templateVars);
-    })
   }
-  listings();
+  listings()
+  .then(response => {
+    let templateVars = {};
+    templateVars.listings = response.rows;
+    templateVars.cookies = req.cookies.id;
+    res.render('main', templateVars);
+  })
   // templateVars = listings()
   // // console.log(templateVars)
   // res.render('main', templateVars);
@@ -82,11 +82,16 @@ app.get('/filtered', (req, res) => {
 })
 
 app.get('/new-listing', (req, res) => {
-  templateVars = ''
+  templateVars = {}
+  console.log(req.cookies.id)
+  templateVars.cookies = req.cookies.id;
+  console.log(templateVars.cookies)
   res.render('new-listing', templateVars); // update with other page
 });
 app.get('/my-listings', (req, res) => {
-  templateVars = ''
+  templateVars = {}
+  templateVars.cookies = req.cookies.id;
+
   res.render('my-listings', templateVars); // update with other page
 });
 // app.get('/alter-listing', (req, res) => {
@@ -94,7 +99,8 @@ app.get('/my-listings', (req, res) => {
 // });
 // OR JUST /:listing_id
 app.get('/listing/:listing_id', (req, res) => {
-  templateVars = ''
+  templateVars = {}
+  templateVars.cookies = req.cookies.id;
   res.render('listing', templateVars); // update with other page
 });
 

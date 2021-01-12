@@ -15,9 +15,7 @@
       <input type="text" name="user">
       <button type="submit" class="login-button">Login</button>
     </form>
-    <% } %>
-
-    <% if (cookies) { %>
+    <% } else { %>
     <form method="POST" action="/logout">
       <label>logged in as user_id: <%= cookies %></label>
       <button type="submit" class="login-button">Logout</button>
