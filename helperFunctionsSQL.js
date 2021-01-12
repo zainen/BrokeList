@@ -8,17 +8,14 @@ db.connect();
 
 // }
 
-const filterPrice = (min, max) => {
-  const values = [min, max]
-  return db.query(`
-  SELECT *
-  FROM listings
-  WHERE price > $1
-  AND price < $2;
-  `, values)
-  .then(response => {
-    return response.rows
+const filterPrice = (arr, min, max) => {
+  const newArr = []
+  arr.forEach((item) => {
+    if (item.price_in_cents >= min && item.price_in_cents <= max) {
+      newArr.push(item)
+    }
   })
+  return newArr
 };
 exports.filterPrice = filterPrice;
 
@@ -125,3 +122,8 @@ const deleteListing = (id) => {
   `, value)
 }
 exports.deleteListing = deleteListing;
+
+const getMessages = () => {
+
+}
+exports.getMessages = getMessages;

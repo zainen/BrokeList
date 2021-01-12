@@ -70,9 +70,17 @@ app.get('/', (req, res) => {
 
 // add :min&:max
 app.get('/filtered', (req, res) => {
-  templateVars = ''
+  templateVars = {}
+  templateVars.cookies = req.cookies.id
+  const min = Number(req.query.min) * 100;
+  const max = Number(req.query.max) * 100;
+  helpers.listings()
+  .then (response => {
+    templateVars.listings = helpers.filterPrice(response.rows, min, max)
+    // console.log(response.rows)
+    res.render('main', templateVars)
+  })
   //inject html with filtered database
-  res.render('main', templateVars)
 })
 
 app.get('/new-listing', (req, res) => {
@@ -222,6 +230,7 @@ app.post('/listing/:listing_id', (req, res) => {
 
 //add :min&:max
 app.post('/filter', (req, res) => {
+  console.log(req.body)
   res.redirect('/filtered')
 })
 // STRETCH
