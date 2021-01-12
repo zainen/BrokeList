@@ -108,6 +108,11 @@ app.get('/listing/:listing_id', (req, res) => {
     res.render('listing', templateVars); // update with other page
   })
 });
+app.get('/messages' , (req, res) => {
+  templateVars = {}
+  templateVars.cookies = req.cookies.id
+  res.render('messages', templateVars)
+})
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
