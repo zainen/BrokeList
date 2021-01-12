@@ -105,7 +105,6 @@ app.get('/listing/:listing_id', (req, res) => {
   .then(response => {
     const listing = response.rows[0]
     templateVars.listing = listing
-    console.log(listing.location)
     res.render('listing', templateVars); // update with other page
   })
 });
@@ -115,7 +114,7 @@ app.post('/', (req, res) => {
   const user = req.body.user
   helpers.checkUser(user)
   .then(response => {
-    if (response.rows[0].id === Number(user)) {
+    if (response.rows[0].user_id === Number(user)) {
       res.cookie('id', user)
       console.log(req.cookies.id)
       console.log(req.cookies)
@@ -198,9 +197,17 @@ const favourites = (user) => {
 app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
   const session_user = req.cookies.id
-  console.log(req.body)
-  // res.redirect('/my-listings')
+  const listing_id = req.params.listing_id
+  helpers.checkUser(session_user)
+  .then(response => {
+    const listing_user = response.rows[0].user_id
+    if (listing_user === Number(session_user)) {
+      helpers.deleteListing(listing_id)
+      res.redirect('/my-listings')
+    }
+  })
 });
+
 app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
   console.log(req.body)

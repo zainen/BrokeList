@@ -93,7 +93,8 @@ const checkUser = (id) => {
   const value = [id]
   return db.query(`
   SELECT * FROM users
-  WHERE id = $1`, value)
+  JOIN listings ON users.id = user_id
+  WHERE user_id = $1`, value)
 }
 exports.checkUser = checkUser;
 
@@ -115,3 +116,12 @@ const viewListing = (id) => {
   WHERE listings.id = $1`, value)
 }
 exports.viewListing = viewListing;
+
+const deleteListing = (id) => {
+  const value = [id]
+  return db.query(`
+  DELETE FROM listings
+  WHERE id = $1
+  `, value)
+}
+exports.deleteListing = deleteListing;
