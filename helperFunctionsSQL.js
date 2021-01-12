@@ -38,19 +38,12 @@ exports.newListingPhoto = newListingPhoto;
 // filterFavourite
 const favourites = (user) => {
   const values = [user]
-  return db.query(`
+  db.query(`
   SELECT *
   FROM favourites
-  JOIN users ON users.id = user_id
   JOIN listings ON listings.id = listing_id
-  WHERE user_id = $1;
+  WHERE favourites.user_id = $1;
   `, values)
-  .then(response => {
-    return response.rows.forEach((item) => {
-      // function to write html and
-      console.log(item)
-    })
-  })
 }
 exports.favourites = favourites;
 

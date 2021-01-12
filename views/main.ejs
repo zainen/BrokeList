@@ -16,13 +16,13 @@
       <%- include('partials/header') %>
     </div>
   <div>
-    <form method="get" action="/filtered" name="values">
+    <form method="GET" action="/filtered" name="values">
       <input type="text" name="min">
       <input type="text" name="max">
       <button type="submit">filter</button>
     </form>
-    <form action="get" action="/favourites">
-      <button type="submit" name="">Favourites</button>
+    <form method="GET" action="/favourites">
+      <button type="submit">Favourites</button>
 
     </form>
   </div>

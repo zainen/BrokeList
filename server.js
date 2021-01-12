@@ -82,6 +82,17 @@ app.get('/filtered', (req, res) => {
   })
   //inject html with filtered database
 })
+app.get ('/favourites', (req, res) => {
+  const user_id = req.cookies.id;
+  templateVars = {}
+  templateVars.cookies = user_id;
+  helpers.favourites(user_id)
+  .then(response => {
+    console.log(response)
+    templateVars.listings = response
+    res.render('main', templateVars)
+  })
+})
 
 app.get('/new-listing', (req, res) => {
   templateVars = {}
@@ -183,29 +194,6 @@ app.post('/my-listings/:listing_id/sold', (req, res) => {
   console.log(!req.body.sold)
   // res.redirect('/my-listings')
 });
-
-const favourites = (user) => {
-  const values = [user]
-  db.query(`
-  SELECT *
-  FROM favourites
-  JOIN users ON users.id = user_id
-  JOIN listings ON listings.id = listing_id
-  WHERE users.id = $1
-  `, values)
-  .then(response => {
-    return response.rows.forEach((item) => {
-      // function to write html and
-      console.log(item)
-    })
-  })
-  .catch(err => {
-    return `Error: ${err}`
-  })
-  .catch(err => {
-    return `Error: ${err}`
-  })
-}
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
