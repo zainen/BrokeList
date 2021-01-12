@@ -1,17 +1,28 @@
 <header class="container">
+
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="/">BrokeList</a>
-    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
     <a class="nav-item nav-link" href="/new-listing">New Listing</a>
     <a class="nav-item nav-link" href="/my-listings">My Listings</a>
   </nav>
-  <form method="POST" action="/">
-    <input type="text" name="user">
-    <button type="submit">Login</button>
-  </form>
-  <form method="POST" action="/logout">
-    <button type="submit">Logout</button>
-  </form>
+
+  <div class="login-logout">
+    <% if (!cookies) { %>
+    <form method="POST" action="/">
+      <label for="user">
+        enter user id:
+      </label>
+      <input type="text" name="user">
+      <button type="submit" class="login-button">Login</button>
+    </form>
+    <% } %>
+
+    <% if (cookies) { %>
+    <form method="POST" action="/logout">
+      <label>logged in as user_id: <%= cookies %></label>
+      <button type="submit" class="login-button">Logout</button>
+    </form>
+    <% } %>
+  </div>
+
 </header>

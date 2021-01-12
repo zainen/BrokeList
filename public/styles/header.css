@@ -1,13 +1,30 @@
-.container {
+header {
+
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
-  padding: 1.5%;
+  padding: 1em;
   flex-wrap: nowrap;
-  background-color: rgb(168, 255, 178);
+  background-color: #afb;
+  border-radius: 2em;
+  align-items: center;
+
 }
 
-.container a {
+header a {
   padding-left: 2.2em;
   padding-right: 2.2em;
+}
+
+.header {
+  padding-bottom: 1em;
+}
+
+.login-button {
+  height: 2em;
+  width: 6em;
+  border: none;
+  margin: none;
+  background-color: #faa;
+  border-radius: 1em;
 }

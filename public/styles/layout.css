@@ -1,7 +1,40 @@
 body {
-  background-color: #EEE;
+  display: flex;
+  background-color: #faa;
+  flex-direction: column;
+
 }
 
 body h1 {
   color: #244751;
+}
+
+input {
+  border: none;
+  margin: none;
+}
+
+.cell {
+  border-style: solid;
+  border-color: grey;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cell:hover {
+  background-color: #fff;
+}
+
+/* individual cells */
+
+.image-title {
+  display: flex;
+}
+
+.buttons {
+  display: flex;
+  padding-right: 2em;
+  justify-content: space-between;
 }
