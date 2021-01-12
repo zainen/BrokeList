@@ -82,9 +82,16 @@ app.get('/new-listing', (req, res) => {
 });
 app.get('/my-listings', (req, res) => {
   templateVars = {}
-  templateVars.cookies = req.cookies.id;
+  const user_id = req.cookies.id
+  templateVars.cookies = user_id
+  helpers.myListings(user_id)
+  .then(response => {
+    templateVars.listings = response.rows
+    console.log(templateVars.listings)
+    res.render('my-listings', templateVars); // update with other page
+  })
 
-  res.render('my-listings', templateVars); // update with other page
+
 });
 // app.get('/alter-listing', (req, res) => {
 //   res.render('new-li'); // update with other page
@@ -183,7 +190,8 @@ const favourites = (user) => {
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
-  favourites(1)
+  const session_user = req.cookies.id
+  console.log(req.body)
   // res.redirect('/my-listings')
 });
 app.post('/listing/:listing_id', (req, res) => {

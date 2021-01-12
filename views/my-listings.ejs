@@ -14,47 +14,51 @@
   <body>
     <%- include('partials/header') %>
 
-    <!-- Active listings -->
-    <!-- entire page -->
     <h1>Active listings</h1>
-      <div class = "listings">
-        <div>
-          <!-- inject id to href -->
-          <a href="/listing/1">
-            <img src="To fill in later">
-            Description goes here
-          </a>
+
+    <% for (listing of listings) { %>
+      <% if (!listing.is_sold) { %>
+
+        <div class = "listings">
+
+          <div>
+            <a href="/listing/<%= listing.id %>">
+              <img src="<%= listing.location %>" alt="media/default.jpg">
+              <%= listing.title %>
+            </a>
+          </div>
+
+          <div>
+            <form method="POST" action="my-listings/<%= listing.id %>/sold">
+              <button type="submit" name="sold">Sold</button>
+            </form>
+            <form method="POST" action="my-listings/<%= listing.id %>/delete">
+              <button type="submit" name="delete-listing-id" value="<%= listing.id %>">Delete</button>
+            </form>
+          </div>
+
         </div>
 
-        <article>
-          <!-- my-listings/:listing_id/sold -->
-          <form method="POST" action="my-listings/2/sold">
-            <button type="submit" name="sold">Sold</button>
-          </form>
-          <!-- action my-listings/:listing_id/delete -->
-          <form method="POST" action="my-listings/2/delete">
-            <button type="submit" name="delete">Delete</button>
-          </form>
-        </article>
-
-      </div>
-
-      <!-- Sold listings -->
+      <% }%>
+    <% } %>
 
     <h1>Sold listings</h1>
 
-      <div class = "listings">
-        <a href="/listing/1">
-          <img src="To fill in later">
-          Description goes here
-        </a>
-        <!-- listing/listing_id/delete -->
-        <form method="POST" action="my-listings/2/delete">
-          <button type="submit" name="delete">Delete</button>
-        </form>
+      <% for (listing of listings) { %>
+        <% if (listing.is_sold) { %>
 
-      </div>
+          <div class = "listings">
+            <a href="/listing/<%= listing.id %>">
+              <img src="<%= listing.location %>" alt="media/default.jpg">
+              <%= listing.title %>
+            </a>
+            <!-- listing/listing_id/delete -->
+            <form method="POST" action="my-listings/<%= listing.id %>/delete">
+              <button type="submit" name="delete-listing-id" value="<%= listing.id %>">Delete</button>
+            </form>
+          </div>
 
-
+        <% } %>
+      <% } %>
   </body>
 </html>

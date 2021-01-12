@@ -80,21 +80,30 @@ const listings = () => {
 exports.listings = listings
 
 //sold listings
-const soldListings = () => {
+const isSoldListing = (value) => {
   return db.query (`
-   SELECT *
-   FROM listings
-   WHERE is_sold = true;
-  `)
-  .then(response => {
-    return response.rows
-  })
+    UPDATE listings
+    SET is_sold = false
+   WHERE listing.id = $1
+  `, value)
 };
-exports.soldListings = soldListings;
+exports.isSoldListing = isSoldListing;
 
 const checkUser = (id) => {
-  const values = [id]
+  const value = [id]
   return db.query(`
-  SELECT * FROM users WHERE id = $1`, values)
+  SELECT * FROM users
+  WHERE id = $1`, value)
 }
 exports.checkUser = checkUser;
+
+const myListings = (id) => {
+  const value = [id];
+  return db.query(`
+  SELECT * FROM listings
+  JOIN photos ON listing_id = listings.id
+  WHERE user_id = $1;
+  `, value)
+}
+exports.myListings = myListings
+

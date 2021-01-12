@@ -50,10 +50,10 @@
     <br>
     <!-- other listings orders -->
     <% for (listing of listings) { %>
-      <div class="cell">
+      <div class="cell" name="<%= listing.id %>">
         <div class="image-title">
           <a href="/listing/<%= listing.id %>">
-            <img src="media/default.jpg" alt="../public/media/default.jpg">
+            <img src="<%= listing.location %>" alt="media/default.jpg">
           </a>
           <div>
             <h3><%= listing.title %></h3>
