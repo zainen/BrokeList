@@ -100,7 +100,14 @@ app.get('/my-listings', (req, res) => {
 app.get('/listing/:listing_id', (req, res) => {
   templateVars = {}
   templateVars.cookies = req.cookies.id;
-  res.render('listing', templateVars); // update with other page
+  const item_id = req.params.listing_id
+  helpers.viewListing(item_id)
+  .then(response => {
+    const listing = response.rows[0]
+    templateVars.listing = listing
+    console.log(listing.location)
+    res.render('listing', templateVars); // update with other page
+  })
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -107,3 +107,11 @@ const myListings = (id) => {
 }
 exports.myListings = myListings
 
+const viewListing = (id) => {
+  const value = [id];
+  return db.query(`
+  SELECT * FROM listings
+  JOIN photos ON listing_id = listings.id
+  WHERE listings.id = $1`, value)
+}
+exports.viewListing = viewListing;
