@@ -245,7 +245,6 @@ app.post('/listing/:listing_id', (req, res) => {
       } else {
         helpers.getMessages(seller_id, buyer_id)
         .then(resp => {
-
           if (!resp.rows) {
             helpers.messageSeller(buyer_id, seller_id, listing_id, message)
             .then(resp => {
