@@ -90,14 +90,16 @@ const listings = () => {
 exports.listings = listings
 
 //sold listings
-const isSoldListing = (value) => {
+const setListingToSold = (listing) => {
+  const query = [listing];
+
   return db.query (`
-    UPDATE listings
-    SET is_sold = false
-   WHERE listing.id = $1
-  `, value)
+  UPDATE listings
+    SET is_sold = true
+   WHERE listing.id = $1;
+  `, query)
 };
-exports.isSoldListing = isSoldListing;
+exports.setListingToSold = setListingToSold;
 
 const checkUser = (id) => {
   const value = [id]
