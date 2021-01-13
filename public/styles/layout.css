@@ -26,6 +26,8 @@ div img.display-image {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 90%;
+  align-self: center;
 }
 
 .image-title div {
