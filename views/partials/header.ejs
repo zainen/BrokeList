@@ -1,7 +1,7 @@
 <header class="container">
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">BrokeList</a>
+    <a class="navbar-brand" href="/"><img src="/media/logo.png"></a>
     <a class="nav-item nav-link" href="/new-listing">New Listing</a>
     <a class="nav-item nav-link" href="/my-listings">My Listings</a>
     <a href="/messages">Messages</a>
@@ -11,14 +11,14 @@
     <% if (!cookies) { %>
     <form method="POST" action="/">
       <label for="user">
-        enter user id:
+        Enter user id:
       </label>
       <input type="text" name="user">
       <button type="submit" class="login-button">Login</button>
     </form>
     <% } else { %>
     <form method="POST" action="/logout">
-      <label>logged in as user_id: <%= cookies %></label>
+      <label>Logged in as user_id: <%= cookies %></label>
       <button type="submit" class="login-button">Logout</button>
     </form>
     <% } %>

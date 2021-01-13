@@ -3,9 +3,13 @@
   <head>
     <title>Home Page</title>
 
+    <script src="https://kit.fontawesome.com/56203c3f8c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700&display=swap" rel="stylesheet">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -57,7 +61,7 @@
       <div class="cell" name="<%= listing.listing_id %>">
         <div class="image-title">
           <a href="/listing/<%= listing.listing_id %>">
-            <img src="<%= listing.location %>" alt="media/default.jpg">
+            <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
           </a>
           <div>
             <h3><%= listing.title %></h3>
@@ -65,10 +69,14 @@
           </div>
         </div>
         <div class="buttons">
-          <a href="/listing/<%= listing.listing_id %>">view listing</a>
+          <form method="GET" action="/listing/<%= listing.listing_id %>">
+              <button type = "submit">View listing</button>
+          </form>
+
           <form method="POST" action="/new-favourite">
             <button type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>">favourite</button>
           </form>
+
         </div>
       </div>
       <% } %>

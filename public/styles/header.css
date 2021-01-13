@@ -5,19 +5,28 @@ header {
   flex-direction: row;
   padding: 1em;
   flex-wrap: nowrap;
-  background-color: #afb;
+  border: solid 2px #333;
+  background-color: #254683;
   border-radius: 2em;
   align-items: center;
 
 }
 
+header.navbar-brand {
+  width: 100%;
+  height: auto;
+}
+
 header a {
   padding-left: 2.2em;
   padding-right: 2.2em;
+  vertical-align: middle;
+  color: #f4f1ec;
 }
 
 .header {
   padding-bottom: 1em;
+  color: #f4f1ec;
 }
 
 .login-button {
@@ -25,6 +34,7 @@ header a {
   width: 6em;
   border: none;
   margin: none;
-  background-color: #faa;
+  background-color: #4277da;
   border-radius: 1em;
+  border: solid 2px #333;
 }
