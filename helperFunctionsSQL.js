@@ -160,3 +160,13 @@ const getBuyerInfo = (id) => {
   `, arr)
 }
 exports.getBuyerInfo = getBuyerInfo;
+
+const getListingByListing_id = (id) => {
+  const arr = [id]
+  return db.query(`
+  SELECT *
+  FROM listings
+  WHERE id = $1;
+  `)
+}
+exports.getListingByListing_id = getListingByListing_id

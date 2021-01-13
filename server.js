@@ -60,7 +60,6 @@ app.get('/', (req, res) => {
   .then(response => {
     let templateVars = {};
     templateVars.listings = response.rows;
-    console.log(templateVars.listings[0])
     templateVars.cookies = req.cookies.id;
     res.render('main', templateVars);
   })
@@ -86,7 +85,6 @@ app.get('/favourites', (req, res) => {
   helpers.favourites(Number(user_id))
   .then(response => {
     templateVars.listings = response.rows
-    console.log(templateVars.listings[0])
     res.render('main', templateVars)
   })
 })
@@ -144,19 +142,20 @@ app.get('/messages' , (req, res) => {
   })
 })
 
+app.get('/sent-message', (req, res) => [
+  res.render('sent-message')
+])
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
   const user = req.body.user
   helpers.checkUser(user)
   .then(response => {
     if (!response.rows[0]) {
-    console.log('No user')
     return res.status(401).end('Incorrect Username!')
     } else  {
       if (response.rows[0].user_id === Number(user)) {
         res.cookie('id', user)
-        console.log(req.cookies.id)
-        console.log(req.cookies)
         req.cookies.user_id = user
         res.redirect('/')
 
@@ -219,12 +218,10 @@ app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
   const session_user = req.cookies.id
   const listing_id = req.params.listing_id
-  console.log(req.params.listing_id)
   helpers.checkUser(session_user)
   .then(response => {
     const listing_user = response.rows[0].user_id
     if (listing_user === session_user || response.rows[0].is_admin) {
-      console.log(response.rows)
       helpers.deleteListing(Number(listing_id))
       .then(response => {
         res.redirect('/my-listings')
@@ -235,19 +232,27 @@ app.post('/my-listings/:listing_id/delete', (req, res) => {
 
 app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
-  console.log(req.body)
+  if ((req.body.inquiry.trim()).length) {
+    console.log(req.body)
+    console.log(req.params.listing_id)
+    console.log(req.cookies.id)
+
+    //have message, buyer_id, listing_id
+
+    // res.redirect('/sent-message')
+  } else {
+    const listing_id = req.params.listing_id
+    res.status(404).end('Please enter a message')
+  }
   //message to user message sent
 
 });
 
 app.post('/new-favourite', (req, res) => {
-  console.log(req.body)
   const user = req.cookies.id
   const listing = req.body.YASS_PLEEZ
-  console.log(user, listing)
   helpers.checkForFavourite(user, listing)
   .then(response => {
-    console.log(response.rows)
     if (!response.rows.length) {
       helpers.addFavourite(user, listing)
       .then(resp => {
