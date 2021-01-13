@@ -10,5 +10,4 @@ VALUES (1, TRUE),
   (7, TRUE),
   (8, TRUE),
   (9, TRUE),
-  (10, TRUE)
-;
+  (10, TRUE);
