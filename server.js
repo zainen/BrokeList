@@ -106,7 +106,6 @@ app.get('/my-listings', (req, res) => {
   helpers.myListings(user_id)
   .then(response => {
     templateVars.listings = response.rows
-    console.log(templateVars.listings)
     res.render('my-listings', templateVars); // update with other page
   })
 
@@ -140,8 +139,6 @@ app.post('/', (req, res) => {
   .then(response => {
     if (response.rows[0].user_id === Number(user)) {
       res.cookie('id', user)
-      console.log(req.cookies.id)
-      console.log(req.cookies)
       req.cookies.user_id = user
       res.redirect('/')
     }
@@ -172,7 +169,6 @@ app.post('/new-listing', (req, res) => {
     helpers.getNewestListing()
     .then(r => {
       const id = r.rows[0].id
-      console.log(id)
       const photoValues = [location, id]
       helpers.newListingPhoto(photoValues)
       .then(res => {
@@ -191,8 +187,17 @@ app.post('/new-listing', (req, res) => {
 
 app.post('/my-listings/:listing_id/sold', (req, res) => {
   //write function change is_sold to true
+  const queries = [req.cookies.id, req.params.listing_id]
+  const listing = req.params.listing_id;
+
   console.log(!req.body.sold)
-  // res.redirect('/my-listings')
+  console.log(listing);
+
+  db.query();
+
+  helpers.setListingToSold(queries[1]);
+
+  res.redirect('/my-listings');
 });
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
