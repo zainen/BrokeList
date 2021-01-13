@@ -19,15 +19,14 @@
     <div class="header">
       <%- include('partials/header') %>
     </div>
-  <div>
+  <div class ="filter-by">
     <form method="GET" action="/filtered" name="values">
-      <input type="text" name="min">
-      <input type="text" name="max">
-      <button type="submit">filter</button>
+      <input type="text" name="min" placeholder="Minimum Price">
+      <input type="text" name="max" placeholder="Maximum Price">
+      <button type="submit">Filter</button>
     </form>
     <form method="GET" action="/favourites">
       <button type="submit">Favourites</button>
-
     </form>
   </div>
 
@@ -70,11 +69,11 @@
         </div>
         <div class="buttons">
           <form method="GET" action="/listing/<%= listing.listing_id %>">
-              <button type = "submit">View listing</button>
+              <button class=main-listing-buttons type = "submit">View listing</button>
           </form>
 
           <form method="POST" action="/new-favourite">
-            <button type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>">favourite</button>
+            <button class= main-listing-buttons type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>">Favourite</button>
           </form>
 
         </div>

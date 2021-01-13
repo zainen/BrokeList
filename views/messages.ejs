@@ -20,7 +20,7 @@
       <% for (message of messages) { %>
         <% if (message.seller_id === Number(cookies.id)) { %>
 
-          <div>
+          <div class="cell">
             <!-- add listing_id && title -->
             <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
             <div>
@@ -35,14 +35,14 @@
               Messsage: <%= message.message %>
             </b>
                                               <!-- object.email -->
-            <button onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %>&body=';" name="email">Email</button>
+            <button onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %> &body=Hi! Thanks for your message about my listing.';" name="email">Email</button>
           </div>
         <% } %>
       <% } %>
       <h1> Sent Messages </h1>
       <% for (message of messages) { %>
         <% if (message.buyer_id === Number(cookies.id)) { %>
-          <div>
+          <div class="cell">
             <b>
               Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a>
             </b>
