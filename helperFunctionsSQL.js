@@ -22,7 +22,8 @@ exports.filterPrice = filterPrice;
 const newListing = (arr) => {
   return db.query(`
   INSERT INTO listings (user_id, title, price_in_cents, description)
-  VALUES ($1, $2, $3, $4);
+  VALUES ($1, $2, $3, $4)
+  RETURNING id;
   `, arr)
 };
 exports.newListing = newListing;
@@ -30,7 +31,8 @@ exports.newListing = newListing;
 const newListingPhoto = (items) => {
   return db.query(`
   INSERT INTO photos (location, listing_id)
-  VALUES ($1, $2);
+  VALUES ($1, $2)
+  RETURNING *;
   `, items)
 }
 exports.newListingPhoto = newListingPhoto;

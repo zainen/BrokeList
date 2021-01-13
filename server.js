@@ -120,10 +120,13 @@ app.get('/listing/:listing_id', (req, res) => {
   .then(response => {
     const listing = response.rows
     templateVars.listing = listing[0]
-    console.log(listing)
     res.render('listing', templateVars); // update with other page
   })
+  .catch(err => {
+    throw err
+  })
 });
+
 app.get('/messages' , (req, res) => {
   templateVars = {}
   templateVars.cookies = req.cookies.id
@@ -172,21 +175,16 @@ app.post('/new-listing', (req, res) => {
   const values = [user, title, price, description];
   helpers.newListing(values)
   .then(response => {
-    helpers.getNewestListing()
-    .then(r => {
-      const id = r.rows[0].id
-      const photoValues = [location, id]
+    const new_listing_id = response.rows[0].id
+      const photoValues = [location, new_listing_id]
       helpers.newListingPhoto(photoValues)
       .then(res => {
         return res.rows
-      })
     })
-    return response.rows
   })
   // new post data -> saved to db
-
-  // after taking the req
   res.redirect('/my-listings')
+  // after taking the req
 });
 
 
