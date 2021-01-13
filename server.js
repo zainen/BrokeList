@@ -82,16 +82,12 @@ app.get('/filtered', (req, res) => {
   })
   //inject html with filtered database
 })
-app.get ('/favourites', (req, res) => {
+app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
   templateVars.cookies = user_id;
-  helpers.favourites(user_id)
-  .then(response => {
-    console.log(response)
-    templateVars.listings = response
-    res.render('main', templateVars)
-  })
+  helpers.favourites(Number(user_id), res)
+
 })
 
 app.get('/new-listing', (req, res) => {
