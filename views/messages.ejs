@@ -18,9 +18,7 @@
     <div>
       <h1> Recieved Messages </h1>
       <% for (message of messages) { %>
-        <%console.log(message.seller_id, cookies.id)%>
         <% if (message.seller_id === Number(cookies.id)) { %>
-          <%console.log('if works')%>
 
           <div>
             <!-- add listing_id && title -->
@@ -37,7 +35,7 @@
               Messsage: <%= message.message %>
             </b>
                                               <!-- object.email -->
-            <button onclick="location.href='mailto:<%= buyer.email %>';" name="email">Email</button>
+            <button onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %>';" name="email">Email</button>
           </div>
         <% } %>
       <% } %>
