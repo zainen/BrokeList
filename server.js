@@ -56,11 +56,13 @@ app.get('/', (req, res) => {
   //inject html with database
   // helpers.listings()
   const haveCookie = req.cookies.id
+  console.log(haveCookie)
   helpers.listings()
   .then(response => {
     let templateVars = {};
     templateVars.listings = response.rows;
-    templateVars.cookies = req.cookies.id;
+    templateVars.cookies = req.cookies;
+    console.log(templateVars.cookies)
     res.render('main', templateVars);
   })
 });
