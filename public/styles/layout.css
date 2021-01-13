@@ -18,6 +18,7 @@ div img.display-image {
   display: flex;
   width: 7em;
   height: 7em;
+  border-radius: 1em;
 }
 
 .cell {
@@ -28,6 +29,7 @@ div img.display-image {
   justify-content: space-between;
   width: 90%;
   align-self: center;
+  border-radius: 1em;
 }
 
 .image-title div {
@@ -53,4 +55,15 @@ div img.display-image {
   display: flex;
   padding-right: 2em;
   justify-content: space-between;
+  margin: 1em;
+}
+
+.main-listing-buttons {
+  margin: 1em;
+  border-radius: 1em;
+}
+
+.filter-by {
+    float:left;
+    margin-right:5px;
 }
