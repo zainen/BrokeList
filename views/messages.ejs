@@ -18,33 +18,42 @@
     <div>
       <h1> Recieved Messages </h1>
       <% for (message of messages) { %>
-      <div>
-        <!-- add listing_id && title -->
-        <b>Listing title: <a href="/listing/1"> inserted title </a></b>
-        <div>
-          <b>
-            Buyer's email: <%= buyer.email %>
-          </b>
-          <b>
-            Buyer's phone number: <%= buyer.phone %>
-          </b>
-        </div>
-        <b>
-          Messsage: <%= message.message %>
-        </b>
-                                          <!-- object.email -->
-        <button onclick="location.href='mailto:<%= buyer.email %>';" name="email">Email</button>
-      </div>
+        <%console.log(message.seller_id, cookies.id)%>
+        <% if (message.seller_id === Number(cookies.id)) { %>
+          <%console.log('if works')%>
+
+          <div>
+            <!-- add listing_id && title -->
+            <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
+            <div>
+              <b>
+                Buyer's email: <%= buyer.email %>
+              </b>
+              <b>
+                Buyer's phone number: <%= buyer.phone %>
+              </b>
+            </div>
+            <b>
+              Messsage: <%= message.message %>
+            </b>
+                                              <!-- object.email -->
+            <button onclick="location.href='mailto:<%= buyer.email %>';" name="email">Email</button>
+          </div>
+        <% } %>
       <% } %>
       <h1> Sent Messages </h1>
-      <div>
-        <b>
-          Listing title: <a href="/listing/1"> inserted title </a>
-        </b>
-        <div>
-          <b>
-            Sent message:
-          </b>
-        </div>
-      </div>
+      <% for (message of messages) { %>
+        <% if (message.buyer_id === Number(cookies.id)) { %>
+          <div>
+            <b>
+              Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a>
+            </b>
+            <div>
+              <b>
+                Sent message: <%= message.message %>
+              </b>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
     </div>

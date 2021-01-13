@@ -140,13 +140,13 @@ const deleteListing = (id) => {
 }
 exports.deleteListing = deleteListing;
 
-const getMessages = (id) => {
-  const value = [id]
+const getMessages = (seller_id, user_id) => {
+  const value = [seller_id, user_id]
   return db.query(`
   SELECT * FROM messages
   JOIN users ON users.id = seller_id
   JOIN listings ON listings.id = listing_id
-  WHERE users.id = $1
+  WHERE seller_id = $1 OR buyer_id = $2
   `, value)
 }
 exports.getMessages = getMessages;
@@ -154,7 +154,7 @@ exports.getMessages = getMessages;
 const getBuyerInfo = (id) => {
   const arr = [id]
   return db.query(`
-  SELECT email, phone
+  SELECT *
   FROM users
   WHERE id = $1
   `, arr)
