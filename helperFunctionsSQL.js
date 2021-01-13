@@ -98,7 +98,7 @@ const setListingToSold = (listing) => {
   return db.query (`
   UPDATE listings
     SET is_sold = true
-   WHERE listing.id = $1;
+    WHERE listings.id = $1;
   `, query)
 };
 exports.setListingToSold = setListingToSold;

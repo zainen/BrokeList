@@ -202,17 +202,13 @@ app.post('/new-listing', (req, res) => {
 
 app.post('/my-listings/:listing_id/sold', (req, res) => {
   //write function change is_sold to true
-  const queries = [req.cookies.id, req.params.listing_id]
   const listing = req.params.listing_id;
 
-  console.log(!req.body.sold)
-  console.log(listing);
+  helpers.setListingToSold(listing)
+  .then(res => console.log(res))
+  .catch(err => console.log('err:', err));
 
-  db.query();
-
-  helpers.setListingToSold(queries[1]);
-
-  res.redirect('/my-listings');
+  res.redirect('back');
 });
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
