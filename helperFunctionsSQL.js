@@ -36,20 +36,36 @@ const newListingPhoto = (items) => {
 exports.newListingPhoto = newListingPhoto;
 
 // filterFavourite
-const favourites = (user, res) => {
+const favourites = (user) => {
   const values = [user]
-  db.query(`
+  return db.query(`
   SELECT *
   FROM favourites
   JOIN listings ON listings.id = listing_id
+  JOIN photos ON listings.id = photos.listing_id
   WHERE favourites.user_id = $1;
   `, values)
-  .then(response => {
-    templateVars.listings = response.rows
-    res.render('main', templateVars)
-  })
 }
 exports.favourites = favourites;
+
+const addFavourite = (user, listing) => {
+  const arr = [user, listing]
+  return db.query(`
+  INSERT INTO favourites (user_id, listing_id)
+  VALUES ($1, $2)
+  `, arr)
+}
+exports.addFavourite = addFavourite;
+
+const checkForFavourite = (user, listing) => {
+  const arr = [user, listing]
+  return db.query(`
+  SELECT *
+  FROM favourites
+  WHERE user_id = $1 AND listing_id = $2
+  `, arr)
+}
+exports.checkForFavourite= checkForFavourite
 
 const getNewestListing = () => {
   return db.query(`
@@ -74,21 +90,23 @@ const listings = () => {
 exports.listings = listings
 
 //sold listings
-const isSoldListing = (value) => {
+const setListingToSold = (listing) => {
+  const query = [listing];
+
   return db.query (`
-    UPDATE listings
-    SET is_sold = false
-   WHERE listing.id = $1
-  `, value)
+  UPDATE listings
+    SET is_sold = true
+   WHERE listing.id = $1;
+  `, query)
 };
-exports.isSoldListing = isSoldListing;
+exports.setListingToSold = setListingToSold;
 
 const checkUser = (id) => {
   const value = [id]
   return db.query(`
   SELECT * FROM users
   JOIN listings ON users.id = user_id
-  WHERE user_id = $1`, value)
+  WHERE user_id = $1;`, value)
 }
 exports.checkUser = checkUser;
 

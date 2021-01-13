@@ -54,9 +54,9 @@
     <br>
     <!-- other listings orders -->
     <% for (listing of listings) { %>
-      <div class="cell" name="<%= listing.id %>">
+      <div class="cell" name="<%= listing.listing_id %>">
         <div class="image-title">
-          <a href="/listing/<%= listing.id %>">
+          <a href="/listing/<%= listing.listing_id %>">
             <img src="<%= listing.location %>" alt="media/default.jpg">
           </a>
           <div>
@@ -65,9 +65,9 @@
           </div>
         </div>
         <div class="buttons">
-          <a href="/listing/<%= listing.id %>">view listing</a>
-          <form method="POST" action="/listing/favourite">
-            <button type="submit">favourite</button>
+          <a href="/listing/<%= listing.listing_id %>">view listing</a>
+          <form method="POST" action="/new-favourite">
+            <button type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>">favourite</button>
           </form>
         </div>
       </div>
