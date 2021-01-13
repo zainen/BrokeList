@@ -19,14 +19,14 @@
     <div class="header">
       <%- include('partials/header') %>
     </div>
-  <div class ="filter-by">
+  <div class ="cell">
     <form method="GET" action="/filtered" name="values">
       <input type="text" name="min" placeholder="Minimum Price">
       <input type="text" name="max" placeholder="Maximum Price">
-      <button type="submit">Filter</button>
+      <button class="main-listing-buttons" type="submit">Filter</button>
     </form>
-    <form method="GET" action="/favourites">
-      <button type="submit">Favourites</button>
+    <form class="buttons" method="GET" action="/favourites">
+      Favourites: <button type="submit" class="favourites-buttons"><img src="../media/heart.png"></button>
     </form>
   </div>
 
@@ -67,16 +67,17 @@
             <p>$<%= ((listing.price_in_cents)/100).toFixed(2) %></p>
           </div>
         </div>
+
         <div class="buttons">
           <form method="GET" action="/listing/<%= listing.listing_id %>">
-              <button class=main-listing-buttons type = "submit">View listing</button>
+              <button class="main-listing-buttons" type = "submit">View listing</button>
           </form>
 
           <form method="POST" action="/new-favourite">
-            <button class= main-listing-buttons type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>">Favourite</button>
+            <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
           </form>
-
         </div>
+
       </div>
       <% } %>
   </body>

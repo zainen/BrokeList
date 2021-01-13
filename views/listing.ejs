@@ -18,7 +18,12 @@
     <%- include('partials/header') %>
     <div>
       <div class='name-price'>
+        <div>
         <h1><%= listing.title %></h1>
+          <form method="POST" action="/new-favourite">
+            <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
+          </form>
+        </div>
         <h2 id='price'><%= ((listing.price_in_cents) / 100).toFixed(2) %></h2>
       </div>
       <img src="../<%= listing.location %>">

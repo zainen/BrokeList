@@ -37,9 +37,26 @@ div img.display-image {
   padding-left: 1em;
 }
 
-.buttons a {
+.favourites-buttons:hover {
+  /*
+  Stolen from:
+  https://stackoverflow.com/questions/7415872/change-color-of-png-image-via-css
+   */
+  filter: invert(100%) sepia(53%) saturate(3207%) hue-rotate(290deg);
+}
+
+.favourites-buttons img {
+  width: 100%;
   display: flex;
-  padding: 1em;
+}
+
+.favourites-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 2em;
+  border: transparent;
+  background: transparent;
 }
 
 .cell:hover {
@@ -54,6 +71,7 @@ div img.display-image {
 
 .buttons {
   display: flex;
+  align-items: center;
   padding-right: 2em;
   justify-content: space-between;
   margin: 1em;
@@ -61,5 +79,6 @@ div img.display-image {
 
 .main-listing-buttons {
   margin: 1em;
+  border: 1px solid #333;
   border-radius: 1em;
 }
