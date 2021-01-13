@@ -135,7 +135,6 @@ app.post('/', (req, res) => {
   const user = req.body.user
   helpers.checkUser(user)
   .then(response => {
-<<<<<<< HEAD
     if (!response.rows[0]) {
     console.log('No user')
     return res.status(401).end('Incorrect Username!')
@@ -148,12 +147,6 @@ app.post('/', (req, res) => {
         res.redirect('/')
 
       }
-=======
-    if (response.rows[0].user_id === Number(user)) {
-      res.cookie('id', user)
-      req.cookies.user_id = user
-      res.redirect('/')
->>>>>>> f3d920c4ee6e78751070be978616858bcead6058
     }
     })
   .catch(err => {
