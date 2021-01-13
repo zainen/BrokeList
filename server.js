@@ -142,9 +142,10 @@ app.get('/messages' , (req, res) => {
   })
 })
 
-app.get('/sent-message', (req, res) => [
-  res.render('sent-message')
-])
+app.get('/sent-message', (req, res) => {
+  templateVars.cookies = req.cookies.id
+  res.render('sent-message', templateVars)
+})
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
@@ -233,13 +234,32 @@ app.post('/my-listings/:listing_id/delete', (req, res) => {
 app.post('/listing/:listing_id', (req, res) => {
   //sql function to select data needed to render page
   if ((req.body.inquiry.trim()).length) {
-    console.log(req.body)
-    console.log(req.params.listing_id)
-    console.log(req.cookies.id)
+    const listing_id = req.params.listing_id
+    helpers.getListingByListing_id(listing_id)
+    .then(response => {
+      const message = req.body.inquiry
+      const buyer_id = Number(req.cookies.id)
+      const seller_id = response.rows[0].user_id
+      if (buyer_id === seller_id) {
+        res.status(404).end("You already own that... Thats exaclty why you broke foo")
+      } else {
+        helpers.getMessages(seller_id, buyer_id)
+        .then(resp => {
+
+          if (!resp.rows) {
+            helpers.messageSeller(buyer_id, seller_id, listing_id, message)
+            .then(resp => {
+              res.redirect('/sent-message')
+            })
+          } else {
+            res.status(404).end('You already sent a message')
+          }
+        })
+      }
+    })
 
     //have message, buyer_id, listing_id
 
-    // res.redirect('/sent-message')
   } else {
     const listing_id = req.params.listing_id
     res.status(404).end('Please enter a message')

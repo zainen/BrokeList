@@ -166,7 +166,18 @@ const getListingByListing_id = (id) => {
   return db.query(`
   SELECT *
   FROM listings
-  WHERE id = $1;
-  `)
+  JOIN users ON users.id = user_id
+  WHERE listings.id = $1;
+  `, arr)
 }
 exports.getListingByListing_id = getListingByListing_id
+
+const messageSeller = (buyer_id, seller_id, listing_id, message) => {
+  const newArr = [buyer_id, seller_id, listing_id, message]
+
+  return db.query(`
+  INSERT INTO messages (buyer_id, seller_id, listing_id, message)
+  VALUES ($1, $2, $3, $4)
+  `, newArr)
+}
+exports.messageSeller = messageSeller;
