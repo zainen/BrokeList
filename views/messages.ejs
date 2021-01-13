@@ -15,23 +15,25 @@
     <%- include('partials/header') %>
     <div>
       <h1> Recieved Messages </h1>
+      <% for (message of messages) { %>
       <div>
         <!-- add listing_id && title -->
         <b>Listing title: <a href="/listing/1"> inserted title </a></b>
         <div>
           <b>
-            Buyer's email:
+            Buyer's email: <%= buyer.email %>
           </b>
           <b>
-            Buyer's phone number:
+            Buyer's phone number: <%= buyer.phone %>
           </b>
         </div>
         <b>
-          Messsage:
+          Messsage: <%= message.message %>
         </b>
                                           <!-- object.email -->
-        <button onclick="location.href='mailto:email@gmail.com';" name="email">Email</button>
+        <button onclick="location.href='mailto:<%= buyer.email %>';" name="email">Email</button>
       </div>
+      <% } %>
       <h1> Sent Messages </h1>
       <div>
         <b>

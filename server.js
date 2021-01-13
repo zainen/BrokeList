@@ -129,8 +129,21 @@ app.get('/listing/:listing_id', (req, res) => {
 
 app.get('/messages' , (req, res) => {
   templateVars = {}
-  templateVars.cookies = req.cookies.id
-  res.render('messages', templateVars)
+  const user_id = req.cookies.id
+  templateVars.cookies = user_id
+  helpers.getMessages(user_id)
+  .then(response => {
+    const buyer_id = response.rows[0].buyer_id
+    helpers.getBuyerInfo(buyer_id)
+    .then(resp => {
+      console.log(resp.rows)
+      const buyerInfo = resp.rows[0]
+      templateVars.buyer = buyerInfo
+      templateVars.messages = response.rows
+      console.log('messages', templateVars.messages)
+      res.render('messages', templateVars)
+    })
+  })
 })
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -140,7 +140,23 @@ const deleteListing = (id) => {
 }
 exports.deleteListing = deleteListing;
 
-const getMessages = () => {
-
+const getMessages = (id) => {
+  const value = [id]
+  return db.query(`
+  SELECT * FROM messages
+  JOIN users ON users.id = seller_id
+  JOIN listings ON listings.id = listing_id
+  WHERE users.id = $1
+  `, value)
 }
 exports.getMessages = getMessages;
+
+const getBuyerInfo = (id) => {
+  const arr = [id]
+  return db.query(`
+  SELECT email, phone
+  FROM users
+  WHERE id = $1
+  `, arr)
+}
+exports.getBuyerInfo = getBuyerInfo;
