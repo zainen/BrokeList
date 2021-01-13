@@ -30,6 +30,7 @@ div img.display-image {
   width: 90%;
   align-self: center;
   border-radius: 1em;
+  padding: 0.5em;
 }
 
 .image-title div {
@@ -61,9 +62,4 @@ div img.display-image {
 .main-listing-buttons {
   margin: 1em;
   border-radius: 1em;
-}
-
-.filter-by {
-    float:left;
-    margin-right:5px;
 }
