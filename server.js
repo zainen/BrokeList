@@ -60,12 +60,10 @@ app.get('/', (req, res) => {
   .then(response => {
     let templateVars = {};
     templateVars.listings = response.rows;
+    console.log(templateVars.listings[0])
     templateVars.cookies = req.cookies.id;
     res.render('main', templateVars);
   })
-  // templateVars = listings()
-  // // console.log(templateVars)
-  // res.render('main', templateVars);
 });
 
 // add :min&:max
@@ -77,7 +75,6 @@ app.get('/filtered', (req, res) => {
   helpers.listings()
   .then (response => {
     templateVars.listings = helpers.filterPrice(response.rows, min, max)
-    // console.log(response.rows)
     res.render('main', templateVars)
   })
   //inject html with filtered database
@@ -86,8 +83,12 @@ app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
   templateVars.cookies = user_id;
-  helpers.favourites(Number(user_id), res)
-
+  helpers.favourites(Number(user_id))
+  .then(response => {
+    templateVars.listings = response.rows
+    console.log(templateVars.listings[0])
+    res.render('main', templateVars)
+  })
 })
 
 app.get('/new-listing', (req, res) => {
@@ -118,8 +119,9 @@ app.get('/listing/:listing_id', (req, res) => {
   const item_id = req.params.listing_id
   helpers.viewListing(item_id)
   .then(response => {
-    const listing = response.rows[0]
-    templateVars.listing = listing
+    const listing = response.rows
+    templateVars.listing = listing[0]
+    console.log(listing)
     res.render('listing', templateVars); // update with other page
   })
 });
@@ -134,14 +136,20 @@ app.post('/', (req, res) => {
   const user = req.body.user
   helpers.checkUser(user)
   .then(response => {
-    if (response.rows[0].user_id === Number(user)) {
-      res.cookie('id', user)
-      console.log(req.cookies.id)
-      console.log(req.cookies)
-      req.cookies.user_id = user
-      res.redirect('/')
+    if (!response.rows[0]) {
+    console.log('No user')
+    return res.status(401).end('Incorrect Username!')
+    } else  {
+      if (response.rows[0].user_id === Number(user)) {
+        res.cookie('id', user)
+        console.log(req.cookies.id)
+        console.log(req.cookies)
+        req.cookies.user_id = user
+        res.redirect('/')
+
+      }
     }
-  })
+    })
   .catch(err => {
     console.log(err)
   })
@@ -195,12 +203,16 @@ app.post('/my-listings/:listing_id/delete', (req, res) => {
   // write function clear listing from db
   const session_user = req.cookies.id
   const listing_id = req.params.listing_id
+  console.log(req.params.listing_id)
   helpers.checkUser(session_user)
   .then(response => {
     const listing_user = response.rows[0].user_id
-    if (listing_user === Number(session_user)) {
-      helpers.deleteListing(listing_id)
-      res.redirect('/my-listings')
+    if (listing_user === session_user || response.rows[0].is_admin) {
+      console.log(response.rows)
+      helpers.deleteListing(Number(listing_id))
+      .then(response => {
+        res.redirect('/my-listings')
+      })
     }
   })
 });
@@ -212,11 +224,27 @@ app.post('/listing/:listing_id', (req, res) => {
 
 });
 
-//add :min&:max
-app.post('/filter', (req, res) => {
+app.post('/new-favourite', (req, res) => {
   console.log(req.body)
-  res.redirect('/filtered')
+  const user = req.cookies.id
+  const listing = req.body.YASS_PLEEZ
+  console.log(user, listing)
+  helpers.checkForFavourite(user, listing)
+  .then(response => {
+    console.log(response.rows)
+    if (!response.rows.length) {
+      helpers.addFavourite(user, listing)
+      .then(resp => {
+        res.redirect('/')
+      })
+    } else {
+      res.redirect('/')
+    }
+  })
 })
+
+// STRECH ADD REMOVE FAVOURITE
+
 // STRETCH
 // app.post('/alter-listing', (req, res) => {
 
