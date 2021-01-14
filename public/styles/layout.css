@@ -31,6 +31,7 @@ div img.display-image {
   align-self: center;
   border-radius: 1em;
   padding: 0.5em;
+
 }
 
 .image-title div {
@@ -149,4 +150,18 @@ div img.display-image {
   display: flex;
   flex-direction: column-reverse
 
+}
+
+nav {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 6em;
+  width: auto;
 }
