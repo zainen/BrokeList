@@ -55,8 +55,6 @@ app.use('/listings', getListings(db))
 app.get('/', (req, res) => {
   //inject html with database
   // helpers.listings()
-  const haveCookie = req.cookies.id
-  console.log(haveCookie)
   helpers.listings()
   .then(response => {
     let templateVars = {};
@@ -70,7 +68,7 @@ app.get('/', (req, res) => {
 // add :min&:max
 app.get('/filtered', (req, res) => {
   templateVars = {}
-  templateVars.cookies = req.cookies.id
+  templateVars.cookies = req.cookies;
   const min = Number(req.query.min) * 100;
   const max = Number(req.query.max) * 100;
   helpers.listings()
@@ -83,7 +81,7 @@ app.get('/filtered', (req, res) => {
 app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
-  templateVars.cookies = user_id;
+  templateVars.cookies = req.cookies;
   helpers.favourites(Number(user_id))
   .then(response => {
     templateVars.listings = response.rows
@@ -93,13 +91,14 @@ app.get('/favourites', (req, res) => {
 
 app.get('/new-listing', (req, res) => {
   templateVars = {}
-  templateVars.cookies = req.cookies.id;
+  templateVars.cookies = req.cookies;
   res.render('new-listing', templateVars); // update with other page
 });
 app.get('/my-listings', (req, res) => {
   templateVars = {}
   const user_id = req.cookies.id
-  templateVars.cookies = user_id
+  templateVars.cookies = req.cookies;
+
   helpers.myListings(user_id)
   .then(response => {
     templateVars.listings = response.rows
@@ -114,7 +113,7 @@ app.get('/my-listings', (req, res) => {
 // OR JUST /:listing_id
 app.get('/listing/:listing_id', (req, res) => {
   templateVars = {}
-  templateVars.cookies = req.cookies.id;
+  templateVars.cookies = req.cookies;
   const item_id = req.params.listing_id
   helpers.viewListing(item_id)
   .then(response => {
