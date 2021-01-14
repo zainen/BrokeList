@@ -197,7 +197,7 @@ app.post('/new-listing', (req, res) => {
   const title = req.body.title
   const price = Number(req.body.price_in_cents) * 100
   const description = req.body.description
-  const location = req.body.location
+  const location = req.body.location ? req.body.location : '../media/default.jpg'
   const values = [user, title, price, description];
   if (!user) {
     res.status(404).end('Please login to post');
