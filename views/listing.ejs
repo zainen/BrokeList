@@ -19,17 +19,17 @@
     <div>
       <div class='name-price'>
         <div>
-        <h1><%= listing.title %></h1>
-          <form method="POST" action="/new-favourite">
-            <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
-          </form>
+        <h1 class="listing-header"><%= listing.title %></h1>
+          <img src="<%= listing.location %>">
         </div>
-        <h2 id='price'><%= ((listing.price_in_cents) / 100).toFixed(2) %></h2>
-      </div>
-      <img src="<%= listing.location %>">
+        <h2>$<%= ((listing.price_in_cents)/100).toFixed(2) %></h2>
+        <form method="POST" action="/new-favourite">
+          <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
+        </form>
+        </div>
     </div>
 
-    <div>
+    <div class="name-price">
       <h4>
         DESCRIPTION
       </h4>
@@ -38,14 +38,16 @@
       </p>
     </div>
 
-    <div>
+    <div class="message-block">
       <form method="POST" name="email_seller">
-        <label>
-          Interested? Email the seller below...
-        </label>
+        <h4>
+          Interested? Enter a message to the seller below to get started.
+        </h4>
+        <br>
         <div>
-          <input type='text' name="inquiry" placeholder="Enter your message to the seller.">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <input class="buyer-message" type='text' name="inquiry" placeholder="Enter your message to the seller.">
+          <br>
+          <button class= "submit-button" type="submit" position="center" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
