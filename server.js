@@ -251,12 +251,15 @@ app.post('/listing/:listing_id', (req, res) => {
       const message = req.body.inquiry
       const buyer_id = Number(req.cookies.id)
       const seller_id = response.rows[0].user_id
+      console.log(message, buyer_id, seller_id)
       if (buyer_id === seller_id) {
         res.status(404).end("You already own that... Thats exaclty why you broke foo")
+      } else if (!buyer_id) {
+        res.status(404).end("Please login to send a message")
       } else {
         helpers.getParticularMessage(seller_id, buyer_id, listing_id)
         .then(resp => {
-          console.log(resp.rows)
+          // console.log(resp.rows)
           const messages = resp.rows
           if (!resp.rows.length) {
             helpers.messageSeller(buyer_id, seller_id, listing_id, message)
