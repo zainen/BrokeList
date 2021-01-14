@@ -71,11 +71,8 @@ app.get('/filtered', (req, res) => {
   templateVars.cookies = req.cookies;
   const min = req.query.min;
   const max = req.query.max;
-  let numMax
-  let numMin
-  console.log(isNaN(''))
-  isNaN(Number(max)) || max === '' ? numMax = Infinity : numMax = Number(max) * 100
-  isNaN(Number(min)) || min === '' ? numMin = 0 : numMin = Number(min) * 100
+  const numMax = isNaN(Number(max)) || max === '' ? Infinity : Number(max) * 100
+  const numMin = isNaN(Number(min)) || min === '' ? 0 : Number(min) * 100
   helpers.listings()
   .then (response => {
     templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
