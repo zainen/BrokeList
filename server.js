@@ -40,7 +40,7 @@ const { resolveInclude } = require('ejs');
 // Note: Feel free to replace the example routes below with your own
 app.use('/api/users', usersRoutes(db));
 app.use('/api/widgets', widgetsRoutes(db));
-app.use('/listings', getListings(db))
+// app.use('/listings', getListings(db))
 // Note: mount other resources here, using the same pattern above
 
 
@@ -118,8 +118,9 @@ app.get('/listing/:listing_id', (req, res) => {
   const item_id = req.params.listing_id
   helpers.viewListing(item_id)
   .then(response => {
-    const listing = response.rows
-    templateVars.listing = listing[0]
+    const listing = response.rows[0]
+    console.log(listing.location)
+    templateVars.listing = listing
     res.render('listing', templateVars); // update with other page
   })
   .catch(err => console.log(err))
