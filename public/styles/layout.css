@@ -145,3 +145,8 @@ div img.display-image {
   text-align: center;
 }
 
+.main {
+  display: flex;
+  flex-direction: column-reverse
+
+}

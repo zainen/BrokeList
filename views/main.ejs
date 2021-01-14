@@ -57,26 +57,29 @@
     <br>
     <br>
     <!-- other listings orders -->
-    <% for (listing of listings) { %>
-      <div class="cell main" name="<%= listing.listing_id %>">
-        <div class="image-title">
-          <a href="/listing/<%= listing.listing_id %>">
-            <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
-          </a>
-          <div>
-            <h3><%= listing.title %></h3>
-            <p>$<%= ((listing.price_in_cents)/100).toFixed(2) %></p>
+    <div class="main">
+
+      <% for (listing of listings) { %>
+        <div class="cell" name="<%= listing.listing_id %>">
+          <div class="image-title">
+            <a href="/listing/<%= listing.listing_id %>">
+              <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
+            </a>
+            <div>
+              <h3><%= listing.title %></h3>
+              <p>$<%= ((listing.price_in_cents)/100).toFixed(2) %></p>
+            </div>
+          </div>
+          <div class="buttons">
+            <form method="GET" action="/listing/<%= listing.listing_id %>">
+              <button class="main-listing-buttons" type = "submit">View listing</button>
+            </form>
+            <form method="POST" action="/new-favourite">
+              <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
+            </form>
           </div>
         </div>
-        <div class="buttons">
-          <form method="GET" action="/listing/<%= listing.listing_id %>">
-              <button class="main-listing-buttons" type = "submit">View listing</button>
-          </form>
-          <form method="POST" action="/new-favourite">
-            <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
-          </form>
-        </div>
+        <% } %>
       </div>
-      <% } %>
   </body>
 </html>
