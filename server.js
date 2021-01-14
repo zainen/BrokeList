@@ -198,6 +198,9 @@ app.post('/new-listing', (req, res) => {
   const description = req.body.description
   const location = req.body.location
   const values = [user, title, price, description];
+  if (!user) {
+    res.status(404).end('Please login to post');
+  }
   helpers.newListing(values)
   .then(response => {
     const new_listing_id = response.rows[0].id
