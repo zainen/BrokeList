@@ -87,9 +87,9 @@ div img.display-image {
 }
 
 .messages {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  align-content: center;
-  align-self: center;
 }
 
 .listing-header {
