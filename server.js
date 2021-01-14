@@ -111,6 +111,7 @@ app.get('/my-listings', (req, res) => {
   helpers.myListings(user_id)
   .then(response => {
     templateVars.listings = response.rows
+    console.log(templateVars)
     res.render('my-listings', templateVars); // update with other page
   })
   .catch(err => console.log(error))

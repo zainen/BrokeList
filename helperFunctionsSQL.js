@@ -147,13 +147,11 @@ const messageSeller = (buyer_id, seller_id, listing_id, message) => {
 };
 exports.messageSeller = messageSeller;
 
-const myListings = (id) => {
-  const value = [id];
+const myListings = () => {
   return db.query(`
   SELECT * FROM listings
-  JOIN photos ON listing_id = listings.id
-  WHERE user_id = $1;
-  `, value)
+  JOIN photos ON listing_id = listings.id;
+  `)
 };
 exports.myListings = myListings;
 
