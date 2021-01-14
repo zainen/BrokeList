@@ -78,13 +78,13 @@ const getBuyerInfo = (id) => {
 };
 exports.getBuyerInfo = getBuyerInfo;
 
-const getMessages = (seller_id, user_id) => {
-  const value = [seller_id, user_id]
+const getMessages = (seller_id) => {
+  const value = [seller_id]
   return db.query(`
   SELECT * FROM messages
   JOIN users ON users.id = seller_id
   JOIN listings ON listings.id = listing_id
-  WHERE seller_id = $1 OR buyer_id = $2
+  WHERE seller_id = $1 OR buyer_id = $1;
   `, value)
 }
 exports.getMessages = getMessages;
@@ -101,6 +101,18 @@ const getNewestListing = () => {
 
 exports.getNewestListing = getNewestListing;
 
+const getParticularMessage = (seller_id, user_id, listing_id) => {
+  const arr = [seller_id, user_id, Number(listing_id)]
+  console.log(arr)
+  return db.query(`
+  SELECT * FROM messages
+  JOIN users ON users.id = seller_id
+  JOIN listings ON listings.id = listing_id
+  WHERE seller_id = $1 AND buyer_id = $2 AND listing_id = $3;
+  `, arr)
+};
+
+exports.getParticularMessage = getParticularMessage;
 
 const getListingByListing_id = (id) => {
   const arr = [id]

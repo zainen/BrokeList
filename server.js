@@ -128,7 +128,7 @@ app.get('/listing/:listing_id', (req, res) => {
 app.get('/messages' , (req, res) => {
   templateVars = {}
   const user_id = req.cookies.id
-  helpers.getMessages(user_id, user_id)
+  helpers.getMessages(user_id)
   .then(response => {
     const buyer_id = response.rows[0].buyer_id
     helpers.getBuyerInfo(buyer_id, user_id)
@@ -243,9 +243,11 @@ app.post('/listing/:listing_id', (req, res) => {
       if (buyer_id === seller_id) {
         res.status(404).end("You already own that... Thats exaclty why you broke foo")
       } else {
-        helpers.getMessages(seller_id, buyer_id)
+        helpers.getParticularMessage(seller_id, buyer_id, listing_id)
         .then(resp => {
-          if (!resp.rows) {
+          console.log(resp.rows)
+          const messages = resp.rows
+          if (!resp.rows.length) {
             helpers.messageSeller(buyer_id, seller_id, listing_id, message)
             .then(resp => {
               res.redirect('/sent-message')
