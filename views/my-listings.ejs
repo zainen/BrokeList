@@ -62,7 +62,7 @@
 
         <% } %>
       <% } %>
-      <% if (!(listing.user_id) && cookies.is_admin === 'true') { %>
+      <% if (cookies.is_admin === 'true') { %>
         <h1>Other Users Listings</h1>
         <% for (listing of listings) { %>
           <% if (!listing.is_sold && listing.user_id !== Number(cookies.id)) { %>
