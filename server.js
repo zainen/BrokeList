@@ -69,16 +69,21 @@ app.get('/', (req, res) => {
 app.get('/filtered', (req, res) => {
   templateVars = {}
   templateVars.cookies = req.cookies;
-  const min = Number(req.query.min) * 100;
-  const max = Number(req.query.max) * 100;
+  const min = req.query.min;
+  const max = req.query.max;
+  let numMax
+  let numMin
+  isNaN(max) || Number(max) === 0 ? numMax = Infinity : numMax = Number(max) * 100
+  isNaN(min) || Number(min) === 0 ? numMin = 0 : numMin = Number(min) * 100
   helpers.listings()
   .then (response => {
-    templateVars.listings = helpers.filterPrice(response.rows, min, max)
+    templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
     res.render('main', templateVars)
   })
   .catch(err => console.log(err))
   //inject html with filtered database
 })
+
 app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
