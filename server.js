@@ -60,9 +60,9 @@ app.get('/', (req, res) => {
     let templateVars = {};
     templateVars.listings = response.rows;
     templateVars.cookies = req.cookies;
-    console.log(templateVars.cookies)
     res.render('main', templateVars);
   })
+  .catch(err => console.log(err))
 });
 
 // add :min&:max
@@ -76,6 +76,7 @@ app.get('/filtered', (req, res) => {
     templateVars.listings = helpers.filterPrice(response.rows, min, max)
     res.render('main', templateVars)
   })
+  .catch(err => console.log(err))
   //inject html with filtered database
 })
 app.get('/favourites', (req, res) => {
@@ -87,6 +88,7 @@ app.get('/favourites', (req, res) => {
     templateVars.listings = response.rows
     res.render('main', templateVars)
   })
+  .catch(err => console.log(err))
 })
 
 app.get('/new-listing', (req, res) => {
@@ -94,18 +96,17 @@ app.get('/new-listing', (req, res) => {
   templateVars.cookies = req.cookies;
   res.render('new-listing', templateVars); // update with other page
 });
+
 app.get('/my-listings', (req, res) => {
   templateVars = {}
   const user_id = req.cookies.id
   templateVars.cookies = req.cookies;
-
   helpers.myListings(user_id)
   .then(response => {
     templateVars.listings = response.rows
     res.render('my-listings', templateVars); // update with other page
   })
-
-
+  .catch(err => console.log(error))
 });
 // app.get('/alter-listing', (req, res) => {
 //   res.render('new-li'); // update with other page
@@ -121,9 +122,7 @@ app.get('/listing/:listing_id', (req, res) => {
     templateVars.listing = listing[0]
     res.render('listing', templateVars); // update with other page
   })
-  .catch(err => {
-    throw err
-  })
+  .catch(err => console.log(err))
 });
 
 app.get('/messages' , (req, res) => {
@@ -140,7 +139,9 @@ app.get('/messages' , (req, res) => {
       templateVars.messages = response.rows
       res.render('messages', templateVars)
     })
+    .catch(err => console.log(err))
   })
+  .catch(error => console.log(error))
 })
 
 app.get('/sent-message', (req, res) => {
@@ -160,15 +161,15 @@ app.post('/', (req, res) => {
         res.cookie('id', user)
         req.cookies.user_id = user
         res.redirect('/')
-
       }
     }
-    })
+  })
   .catch(err => {
     console.log(err)
   })
 // filter
 });
+
 app.post('/logout', (req, res) => {
   res.clearCookie('id')
   res.redirect('/')
@@ -193,7 +194,9 @@ app.post('/new-listing', (req, res) => {
       .then(res => {
         return res.rows
     })
+    .catch(err => console.log(err))
   })
+  .catch(error => console.log(error))
   // new post data -> saved to db
   res.redirect('/my-listings')
   // after taking the req
