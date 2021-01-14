@@ -82,3 +82,9 @@ div img.display-image {
   border: 1px solid #333;
   border-radius: 1em;
 }
+
+.messages {
+  align-items: center;
+  align-content: center;
+  align-self: center;
+}

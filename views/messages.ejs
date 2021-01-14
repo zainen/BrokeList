@@ -15,7 +15,7 @@
 
   <body>
     <%- include('partials/header') %>
-    <div>
+    <div class="messages">
       <h1> Recieved Messages </h1>
       <% for (message of messages) { %>
         <% if (message.seller_id === Number(cookies.id)) { %>
