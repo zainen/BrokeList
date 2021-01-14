@@ -167,10 +167,9 @@ app.post('/', (req, res) => {
     return res.status(401).end('Incorrect Username!')
     } else  {
       if (response.rows[0].user_id === Number(user)) {
-        const is_admin = response.rows[0].is_admin
-        console.log(is_admin)
+        const is_admin = response.rows[0].is_admin ? response.rows[0].is_admin : false
+        res.cookie('is_admin', is_admin)
         res.cookie('id', user)
-
         req.cookies.user_id = user
         res.redirect('/')
       }
@@ -184,6 +183,7 @@ app.post('/', (req, res) => {
 
 app.post('/logout', (req, res) => {
   res.clearCookie('id')
+  res.clearCookie('is_admin')
   res.redirect('/')
 });
 
@@ -255,29 +255,35 @@ app.post('/listing/:listing_id', (req, res) => {
       const message = req.body.inquiry
       const buyer_id = Number(req.cookies.id)
       const seller_id = response.rows[0].user_id
-      console.log(message, buyer_id, seller_id)
-      if (buyer_id === seller_id) {
-        res.status(404).end("You already own that... Thats exaclty why you broke foo")
-      } else if (!buyer_id) {
-        res.status(404).end("Please login to send a message")
+      if (!buyer_id) {
+        res.status(404).end("Please login to message the seller")
+
       } else {
-        helpers.getParticularMessage(seller_id, buyer_id, listing_id)
-        .then(resp => {
-          // console.log(resp.rows)
-          const messages = resp.rows
-          if (!resp.rows.length) {
-            helpers.messageSeller(buyer_id, seller_id, listing_id, message)
-            .then(resp => {
-              res.redirect('/sent-message')
-            })
-          } else {
-            res.status(404).end('You already sent a message')
-          }
-        })
+
+        console.log(message, buyer_id, seller_id)
+        if (buyer_id === seller_id) {
+          res.status(404).end("You already own that... Thats exaclty why you broke foo")
+        } else if (!buyer_id) {
+          res.status(404).end("Please login to send a message")
+        } else {
+          helpers.getParticularMessage(seller_id, buyer_id, listing_id)
+          .then(resp => {
+            // console.log(resp.rows)
+            const messages = resp.rows
+            if (!resp.rows.length) {
+              helpers.messageSeller(buyer_id, seller_id, listing_id, message)
+              .then(resp => {
+                res.redirect('/sent-message')
+              })
+            } else {
+              res.status(404).end('You already sent a message')
+            }
+          })
+        }
       }
     })
 
-    //have message, buyer_id, listing_id
+      //have message, buyer_id, listing_id
 
   } else {
     const listing_id = req.params.listing_id
