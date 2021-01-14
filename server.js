@@ -199,15 +199,15 @@ app.post('/logout', (req, res) => {
 // })
 app.post('/new-listing', (req, res) => {
   const user = req.cookies.id
-  const title = req.body.title
-  const price = Number(req.body.price_in_cents) * 100
-  const description = req.body.description
+  const title = req.body.title ? req.body.title : 'Somebody forgot a title'
+  const price = Number(req.body.price_in_cents) * 100 ? Number(req.body.price_in_cents) * 100 : 0
+  const description = req.body.description ? req.body.description : 'Someone is broke and needs money'
   const location = req.body.location ? req.body.location : '../media/default.jpg'
   const values = [user, title, price, description];
-  if (!user) {
+  if (!req.cookies.id) {
     res.status(404).end('Please login to post');
   } else {
-
+console.log*('here')
     helpers.newListing(values)
     .then(response => {
       const new_listing_id = response.rows[0].id
