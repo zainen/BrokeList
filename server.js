@@ -89,6 +89,10 @@ app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
   templateVars.cookies = req.cookies;
+  if (!user_id) {
+    res.status(404).end("Please login to see favourites")
+  }
+
   helpers.favourites(Number(user_id))
   .then(response => {
     templateVars.listings = response.rows
@@ -285,6 +289,10 @@ app.post('/listing/:listing_id', (req, res) => {
 
 app.post('/new-favourite', (req, res) => {
   const user = req.cookies.id
+  if (!user) {
+    res.status(404).end("Please login tofavourites or we cant keep your favourites")
+
+  }
   const listing = req.body.YASS_PLEEZ
   helpers.checkForFavourite(user, listing)
   .then(response => {
