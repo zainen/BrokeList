@@ -164,3 +164,8 @@ nav {
   height: 6em;
   width: auto;
 }
+
+.phone-email {
+  display: flex;
+  flex-direction: column;
+}

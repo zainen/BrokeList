@@ -23,12 +23,12 @@
           <div class="cell">
             <!-- add listing_id && title -->
             <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
-            <div>
+            <div class="phone-email">
               <b>
-                Buyer's email: <%= buyer.email %>
+                Buyer's email: <p><a onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %> &body=Hi! Thanks for your message about my listing.';"><%= buyer.email %></a></p>
               </b>
               <b>
-                Buyer's phone number: <%= buyer.phone %>
+                Buyer's phone number: <p><%= buyer.phone %></p>
               </b>
             </div>
             <b>
