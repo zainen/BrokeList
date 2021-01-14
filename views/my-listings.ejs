@@ -47,7 +47,7 @@
     <h1>Sold listings</h1>
 
       <% for (listing of listings) { %>
-        <% if (listing.is_sold && listing.user_id) { %>
+        <% if (listing.is_sold && listing.user_id === Number(cookies.id)) { %>
 
           <div class = "cell">
             <a href="/listing/<%= listing.id %>">
