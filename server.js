@@ -191,7 +191,7 @@ app.post('/new-listing', (req, res) => {
   const title = req.body.title
   const price = Number(req.body.price_in_cents) * 100
   const description = req.body.description
-  const location = req.body.location[0]
+  const location = req.body.location
   const values = [user, title, price, description];
   helpers.newListing(values)
   .then(response => {
