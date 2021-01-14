@@ -21,12 +21,14 @@
     </div>
   <div class ="cell">
     <form method="GET" action="/filtered" name="values">
+      <label>$</label>
       <input type="text" name="min" placeholder="Minimum Price">
+      <label>$</label>
       <input type="text" name="max" placeholder="Maximum Price">
       <button class="main-listing-buttons" type="submit">Filter</button>
     </form>
     <form class="buttons" method="GET" action="/favourites">
-      Favourites: <button type="submit" class="favourites-buttons"><img src="../media/heart.png"></button>
+      Favourites:  <button type="submit" class="favourites-buttons"><img src="../media/heart.png"></button>
     </form>
   </div>
 
@@ -42,7 +44,6 @@
         <h4>title</h4>
         <form method="POST" action="/listing/:listing_id">
           <button type="submit">view</button>
-
         </form>
       </div>
       <div>
@@ -67,17 +68,14 @@
             <p>$<%= ((listing.price_in_cents)/100).toFixed(2) %></p>
           </div>
         </div>
-
         <div class="buttons">
           <form method="GET" action="/listing/<%= listing.listing_id %>">
               <button class="main-listing-buttons" type = "submit">View listing</button>
           </form>
-
           <form method="POST" action="/new-favourite">
             <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
           </form>
         </div>
-
       </div>
       <% } %>
   </body>

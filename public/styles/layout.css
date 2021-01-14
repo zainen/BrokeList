@@ -54,9 +54,11 @@ div img.display-image {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 2em;
+  width: 2em;
+  height: 2em;
   border: transparent;
   background: transparent;
+  border-radius: 100%;
 }
 
 .cell:hover {
@@ -87,4 +89,56 @@ div img.display-image {
   align-items: center;
   align-content: center;
   align-self: center;
+}
+
+.listing-header {
+  text-align: center;
+}
+
+.listing-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.message-block{
+  border: solid 2px #333;
+  margin-bottom: 1.5em;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  align-self: center;
+  border-radius: 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+ .buyer-message {
+   height: 100px;
+   min-width: 100%;
+   border-radius: 1em;
+ }
+
+ .submit-message {
+  border: solid 2px #333;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  align-self: center;
+  border-radius: 1em;
+  padding: 0.5em;
+ }
+
+ .submit-button {
+  margin: 1em;
+  border: 1px solid #333;
+  border-radius: 1em;
+}
+
+.name-price {
+  align-items: center;
+  text-align: center;
 }
