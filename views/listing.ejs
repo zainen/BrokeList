@@ -20,7 +20,7 @@
       <div class='name-price'>
         <div>
         <h1 class="listing-header"><%= listing.title %></h1>
-          <img src="<%= listing.location %>">
+          <img class="listing-image" src="<%= listing.location %>">
         </div>
         <h2>$<%= ((listing.price_in_cents)/100).toFixed(2) %></h2>
         <form method="POST" action="/new-favourite">
