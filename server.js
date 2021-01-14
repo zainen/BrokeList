@@ -134,10 +134,11 @@ app.get('/listing/:listing_id', (req, res) => {
 
 app.get('/messages' , (req, res) => {
   templateVars = {}
-  const user_id = req.cookies.id
+  const user_id = req.cookies.id;
+  console.log(user_id)
   helpers.getMessages(user_id)
   .then(response => {
-    const buyer_id = response.rows[0].buyer_id
+    const buyer_id = user_id ? response.rows[0].buyer_id : 0
     helpers.getBuyerInfo(buyer_id, user_id)
     .then(resp => {
       const buyerInfo = resp.rows[0]
@@ -165,7 +166,10 @@ app.post('/', (req, res) => {
     return res.status(401).end('Incorrect Username!')
     } else  {
       if (response.rows[0].user_id === Number(user)) {
+        const is_admin = response.rows[0].is_admin
+        console.log(is_admin)
         res.cookie('id', user)
+
         req.cookies.user_id = user
         res.redirect('/')
       }

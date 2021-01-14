@@ -8,7 +8,7 @@
   </nav>
 
   <div class="login-logout">
-    <% if (!cookies) { %>
+    <% if (!cookies.id) { %>
     <form method="POST" action="/">
       <label for="user">
         Enter user id:
