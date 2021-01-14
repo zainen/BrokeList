@@ -71,11 +71,8 @@ app.get('/filtered', (req, res) => {
   templateVars.cookies = req.cookies;
   const min = req.query.min;
   const max = req.query.max;
-  let numMax
-  let numMin
-  console.log(isNaN(''))
-  isNaN(Number(max)) || max === '' ? numMax = Infinity : numMax = Number(max) * 100
-  isNaN(Number(min)) || min === '' ? numMin = 0 : numMin = Number(min) * 100
+  const numMax = isNaN(Number(max)) || max === '' ? Infinity : Number(max) * 100
+  const numMin = isNaN(Number(min)) || min === '' ? 0 : Number(min) * 100
   helpers.listings()
   .then (response => {
     templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
@@ -89,6 +86,10 @@ app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
   templateVars = {}
   templateVars.cookies = req.cookies;
+  if (!user_id) {
+    res.status(404).end("Please login to see favourites")
+  }
+
   helpers.favourites(Number(user_id))
   .then(response => {
     templateVars.listings = response.rows
@@ -134,10 +135,11 @@ app.get('/listing/:listing_id', (req, res) => {
 
 app.get('/messages' , (req, res) => {
   templateVars = {}
-  const user_id = req.cookies.id
+  const user_id = req.cookies.id;
+  console.log(user_id)
   helpers.getMessages(user_id)
   .then(response => {
-    const buyer_id = response.rows[0].buyer_id
+    const buyer_id = user_id ? response.rows[0].buyer_id : 0
     helpers.getBuyerInfo(buyer_id, user_id)
     .then(resp => {
       const buyerInfo = resp.rows[0]
@@ -165,6 +167,8 @@ app.post('/', (req, res) => {
     return res.status(401).end('Incorrect Username!')
     } else  {
       if (response.rows[0].user_id === Number(user)) {
+        const is_admin = response.rows[0].is_admin ? response.rows[0].is_admin : false
+        res.cookie('is_admin', is_admin)
         res.cookie('id', user)
         req.cookies.user_id = user
         res.redirect('/')
@@ -179,6 +183,7 @@ app.post('/', (req, res) => {
 
 app.post('/logout', (req, res) => {
   res.clearCookie('id')
+  res.clearCookie('is_admin')
   res.redirect('/')
 });
 
@@ -193,6 +198,9 @@ app.post('/new-listing', (req, res) => {
   const description = req.body.description
   const location = req.body.location
   const values = [user, title, price, description];
+  if (!user) {
+    res.status(404).end('Please login to post');
+  }
   helpers.newListing(values)
   .then(response => {
     const new_listing_id = response.rows[0].id
@@ -247,26 +255,35 @@ app.post('/listing/:listing_id', (req, res) => {
       const message = req.body.inquiry
       const buyer_id = Number(req.cookies.id)
       const seller_id = response.rows[0].user_id
-      if (buyer_id === seller_id) {
-        res.status(404).end("You already own that... Thats exaclty why you broke foo")
+      if (!buyer_id) {
+        res.status(404).end("Please login to message the seller")
+
       } else {
-        helpers.getParticularMessage(seller_id, buyer_id, listing_id)
-        .then(resp => {
-          console.log(resp.rows)
-          const messages = resp.rows
-          if (!resp.rows.length) {
-            helpers.messageSeller(buyer_id, seller_id, listing_id, message)
-            .then(resp => {
-              res.redirect('/sent-message')
-            })
-          } else {
-            res.status(404).end('You already sent a message')
-          }
-        })
+
+        console.log(message, buyer_id, seller_id)
+        if (buyer_id === seller_id) {
+          res.status(404).end("You already own that... Thats exaclty why you broke foo")
+        } else if (!buyer_id) {
+          res.status(404).end("Please login to send a message")
+        } else {
+          helpers.getParticularMessage(seller_id, buyer_id, listing_id)
+          .then(resp => {
+            // console.log(resp.rows)
+            const messages = resp.rows
+            if (!resp.rows.length) {
+              helpers.messageSeller(buyer_id, seller_id, listing_id, message)
+              .then(resp => {
+                res.redirect('/sent-message')
+              })
+            } else {
+              res.status(404).end('You already sent a message')
+            }
+          })
+        }
       }
     })
 
-    //have message, buyer_id, listing_id
+      //have message, buyer_id, listing_id
 
   } else {
     const listing_id = req.params.listing_id
@@ -278,6 +295,10 @@ app.post('/listing/:listing_id', (req, res) => {
 
 app.post('/new-favourite', (req, res) => {
   const user = req.cookies.id
+  if (!user) {
+    res.status(404).end("Please login tofavourites or we cant keep your favourites")
+
+  }
   const listing = req.body.YASS_PLEEZ
   helpers.checkForFavourite(user, listing)
   .then(response => {

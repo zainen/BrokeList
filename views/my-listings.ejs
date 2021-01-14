@@ -55,7 +55,7 @@
               <%= listing.title %>
             </a>
             <!-- listing/listing_id/delete -->
-            <form method="POST" action="my-listings/<%= listing.id %>/delete">
+            <form method="POST" action="my-listings/<%= listing.listing_id %>/delete">
               <button class= main-listing-buttons type="submit" name="delete-listing-id" value="<%= listing.id %>">Delete</button>
             </form>
           </div>
