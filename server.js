@@ -201,20 +201,22 @@ app.post('/new-listing', (req, res) => {
   const values = [user, title, price, description];
   if (!user) {
     res.status(404).end('Please login to post');
-  }
-  helpers.newListing(values)
-  .then(response => {
-    const new_listing_id = response.rows[0].id
+  } else {
+
+    helpers.newListing(values)
+    .then(response => {
+      const new_listing_id = response.rows[0].id
       const photoValues = [location, new_listing_id]
       helpers.newListingPhoto(photoValues)
       .then(res => {
+        res.redirect('/my-listings')
         return res.rows
+      })
+      .catch(err => console.log(err))
     })
-    .catch(err => console.log(err))
-  })
-  .catch(error => console.log(error))
-  // new post data -> saved to db
-  res.redirect('/my-listings')
+    .catch(error => console.log(error))
+  }
+    // new post data -> saved to db
   // after taking the req
 });
 
