@@ -126,10 +126,15 @@ app.get('/listing/:listing_id', (req, res) => {
   const item_id = req.params.listing_id
   helpers.viewListing(item_id)
   .then(response => {
+    console.log(response.rows)
     const listing = response.rows[0]
-    console.log(listing.location)
-    templateVars.listing = listing
-    res.render('listing', templateVars); // update with other page
+    if(listing) {
+      console.log(listing.location)
+      templateVars.listing = listing
+      res.render('listing', templateVars); // update with other page
+    } else {
+      res.redirect('/')
+    }
   })
   .catch(err => console.log(err))
 });
@@ -208,9 +213,9 @@ app.post('/new-listing', (req, res) => {
       const new_listing_id = response.rows[0].id
       const photoValues = [location, new_listing_id]
       helpers.newListingPhoto(photoValues)
-      .then(res => {
+      .then(resp => {
         res.redirect('/my-listings')
-        return res.rows
+        return resp.rows
       })
       .catch(err => console.log(err))
     })

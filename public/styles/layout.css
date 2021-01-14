@@ -169,3 +169,8 @@ nav {
   display: flex;
   flex-direction: column;
 }
+
+.email-to {
+  display: flex;
+  justify-content: row;
+}

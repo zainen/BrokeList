@@ -22,10 +22,14 @@
 
           <div class="cell">
             <!-- add listing_id && title -->
-            <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
+              <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
             <div class="phone-email">
               <b>
-                Buyer's email: <p><a onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %> &body=Hi! Thanks for your message about my listing.';"><%= buyer.email %></a></p>
+                Buyer's email:
+                <div class="email-to">
+                  <p><%= buyer.email %></p>
+                  <button class="main-listing-buttons" onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %> &body=Hi! Thanks for your message about my listing.';" name="email">Email</button>
+                </div>
               </b>
               <b>
                 Buyer's phone number: <p><%= buyer.phone %></p>
@@ -34,8 +38,6 @@
             <b>
               Messsage: <%= message.message %>
             </b>
-                                              <!-- object.email -->
-            <button class="main-listing-buttons" onclick="location.href='mailto:<%= buyer.email %>?subject=Listing: <%= message.title %> &body=Hi! Thanks for your message about my listing.';" name="email">Email</button>
           </div>
         <% } %>
       <% } %>
