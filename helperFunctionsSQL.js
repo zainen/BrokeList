@@ -132,7 +132,8 @@ const listings = () => {
   SELECT *
   FROM listings
   JOIN photos ON listings.id = listing_id
-  WHERE is_sold = false;
+  WHERE is_sold = false
+  ORDER BY listing_id DESC
   `)
 };
 exports.listings = listings;
@@ -150,7 +151,8 @@ exports.messageSeller = messageSeller;
 const myListings = () => {
   return db.query(`
   SELECT * FROM listings
-  JOIN photos ON listing_id = listings.id;
+  JOIN photos ON listing_id = listings.id
+  ORDER BY listing_id DESC;
   `)
 };
 exports.myListings = myListings;

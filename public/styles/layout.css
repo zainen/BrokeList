@@ -148,8 +148,7 @@ div img.display-image {
 
 .main {
   display: flex;
-  flex-direction: column-reverse
-
+  flex-direction: column;
 }
 
 nav {
