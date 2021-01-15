@@ -49,6 +49,8 @@ const { resolveInclude } = require('ejs'); // not used
 
 
 // ~~~~~~~~~~~~~~ STRETCH ADD USE OF ROUTES ~~~~~~~~~~~~~~
+
+
 // app.use('/new-listing')
 // app.use('/my-listings')
 // app.use('/listing')
@@ -57,16 +59,7 @@ const { resolveInclude } = require('ejs'); // not used
 // app.use('**')
 
 
-// app.use('/listings', getListings(db))
-// Note: mount other resources here, using the same pattern above
-
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER GET REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-// functions write html to then get rendered by get requests
 
 app.get('/', (req, res) => {
   return helpers.listings()
@@ -120,7 +113,7 @@ app.get('/favourites', (req, res) => {
 app.get('/new-listing', (req, res) => {
   templateVars = {};
   templateVars.cookies = req.cookies;
-  return res.render('new-listing', templateVars); // update with other page
+  return res.render('new-listing', templateVars);
 });
 
 app.get('/my-listings', (req, res) => {
@@ -130,7 +123,7 @@ app.get('/my-listings', (req, res) => {
   return helpers.myListings(user_id)
     .then(response => {
       templateVars.listings = response.rows;
-      return res.render('my-listings', templateVars); // update with other page
+      return res.render('my-listings', templateVars);
     })
     .catch(err => {
       return err;
