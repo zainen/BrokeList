@@ -16,7 +16,7 @@
   <body>
     <%- include('partials/header') %>
 
-    <h1>My Active Listings:</h1>
+    <h1 class="messages">My Active Listings:</h1>
 
     <% for (listing of listings) { %>
       <% if (!listing.is_sold && listing.user_id === Number(cookies.id)) { %>
@@ -41,7 +41,7 @@
       <% }%>
     <% } %>
 
-    <h1>My Sold Listings:</h1>
+    <h1 class="messages">My Sold Listings:</h1>
 
       <% for (listing of listings) { %>
         <% if (listing.is_sold && listing.user_id === Number(cookies.id)) { %>
@@ -62,7 +62,7 @@
         <% } %>
       <% } %>
       <% if (cookies.is_admin === 'true') { %>
-        <h1>Other Users Listings:</h1>
+        <h1 class="messages">Other Users Listings:</h1>
         <% for (listing of listings) { %>
           <% if (!listing.is_sold && listing.user_id !== Number(cookies.id)) { %>
             <div class = "cell">
