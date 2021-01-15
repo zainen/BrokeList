@@ -247,11 +247,11 @@ app.post('/my-listings/:listing_id/sold', (req, res) => {
 });
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
-  const session_user = req.cookies.id;
+  const session_user = Number(req.cookies.id);
   const listing_id = req.params.listing_id;
   return helpers.checkUser(session_user)
     .then(response => {
-      const listing_user = response.rows[0].user_id;
+      const listing_user = Number(response.rows[0].user_id);
       if (listing_user === session_user || response.rows[0].is_admin) {
         return helpers.deleteListing(Number(listing_id))
           .then(() => {
