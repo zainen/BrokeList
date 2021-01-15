@@ -74,9 +74,11 @@ app.get('/', (req, res) => {
       let templateVars = {};
       templateVars.listings = response.rows;
       templateVars.cookies = req.cookies;
-      res.render('main', templateVars);
+      return res.render('main', templateVars);
     })
-    .catch(err => {return err})
+    .catch(err => {
+      return err;
+    });
 });
 
 // add :min&:max
@@ -88,11 +90,13 @@ app.get('/filtered', (req, res) => {
   const numMax = isNaN(Number(max)) || max === '' ? Infinity : Number(max) * 100;
   const numMin = isNaN(Number(min)) || min === '' ? 0 : Number(min) * 100;
   return helpers.listings()
-    .then (response => {
-      templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
-      res.render('main', templateVars)
+    .then(response => {
+      templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax);
+      res.render('main', templateVars);
     })
-    .catch(err => {return err})
+    .catch(err => {
+      return err;
+    });
 });
 
 app.get('/favourites', (req, res) => {
@@ -100,94 +104,106 @@ app.get('/favourites', (req, res) => {
   templateVars = {};
   templateVars.cookies = req.cookies;
   if (!user_id) {
-    res.status(404).end("Please login to see favourites");
+    return res.status(404).end("Please login to see favourites");
   }
 
-  helpers.favourites(Number(user_id))
-  .then(response => {
-    templateVars.listings = response.rows;
-    res.render('main', templateVars);
-  })
-  .catch(err => {return err})
+  return helpers.favourites(Number(user_id))
+    .then(response => {
+      templateVars.listings = response.rows;
+      return res.render('main', templateVars);
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.get('/new-listing', (req, res) => {
   templateVars = {};
   templateVars.cookies = req.cookies;
-  res.render('new-listing', templateVars); // update with other page
+  return res.render('new-listing', templateVars); // update with other page
 });
 
 app.get('/my-listings', (req, res) => {
   templateVars = {};
   const user_id = req.cookies.id;
   templateVars.cookies = req.cookies;
-  helpers.myListings(user_id)
-  .then(response => {
-    templateVars.listings = response.rows;
-    res.render('my-listings', templateVars); // update with other page
-  })
-  .catch(err => {return err})
+  return helpers.myListings(user_id)
+    .then(response => {
+      templateVars.listings = response.rows;
+      return res.render('my-listings', templateVars); // update with other page
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.get('/listing/:listing_id', (req, res) => {
   templateVars = {};
   templateVars.cookies = req.cookies;
   const item_id = req.params.listing_id;
-  helpers.viewListing(item_id)
-  .then(response => {
-    const listing = response.rows[0]
-    if(listing) {
-      templateVars.listing = listing
-      res.render('listing', templateVars); // update with other page
-    } else {
-      res.redirect('/')
-    }
-  })
-  .catch(err => {return err})
+  return helpers.viewListing(item_id)
+    .then(response => {
+      const listing = response.rows[0];
+      if (listing) {
+        templateVars.listing = listing;
+        return res.render('listing', templateVars); // update with other page
+      } else {
+        return res.redirect('/');
+      }
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.get('/messages' , (req, res) => {
-  templateVars = {}
+  templateVars = {};
   const user_id = req.cookies.id;
   helpers.getMessages(user_id)
-  .then(response => {
-    const buyer_id = user_id ? response.rows[0].buyer_id : 0
-    helpers.getBuyerInfo(buyer_id, user_id)
-    .then(resp => {
-      const buyerInfo = resp.rows[0]
-      templateVars.cookies = req.cookies
-      templateVars.buyer = buyerInfo
-      templateVars.messages = response.rows
-      res.render('messages', templateVars)
+    .then(response => {
+      const buyer_id = user_id ? response.rows[0].buyer_id : 0;
+      return helpers.getBuyerInfo(buyer_id, user_id)
+        .then(resp => {
+          const buyerInfo = resp.rows[0];
+          templateVars.cookies = req.cookies;
+          templateVars.buyer = buyerInfo;
+          templateVars.messages = response.rows;
+          return res.render('messages', templateVars);
+        })
+        .catch(err => {
+          return err;
+        });
     })
-    .catch(err => {return err})
-  })
-  .catch(err => {return err})
+    .catch(err => {
+      return err;
+    });
 });
 
 app.get('/sent-message', (req, res) => {
-  templateVars.cookies = req.cookies.id
-  res.render('sent-message', templateVars)
-})
+  templateVars.cookies = req.cookies.id;
+  res.render('sent-message', templateVars);
+});
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
   const user = req.body.user;
   helpers.checkUser(user)
-  .then(response => {
-    if (!response.rows[0]) {
-    return res.status(401).end('Incorrect Username!');
-    } else  {
-      if (response.rows[0].user_id === Number(user)) {
-        const is_admin = !!response.rows[0].is_admin;
-        res.cookie('is_admin', is_admin);
-        res.cookie('id', user);
-        req.cookies.user_id = user;
-        res.redirect('/');
+    .then(response => {
+      if (!response.rows[0]) {
+        return res.status(401).end('Incorrect Username!');
+      } else  {
+        if (response.rows[0].user_id === Number(user)) {
+          const is_admin = !!response.rows[0].is_admin;
+          res.cookie('is_admin', is_admin);
+          res.cookie('id', user);
+          req.cookies.user_id = user;
+          res.redirect('/');
+        }
       }
-    }
-  })
-  .catch(err => {return err})
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.post('/logout', (req, res) => {
@@ -207,16 +223,20 @@ app.post('/new-listing', (req, res) => {
     return res.status(404).end('Please login to post');
   } else {
     return helpers.newListing(values)
-    .then(response => {
-      const new_listing_id = response.rows[0].id;
-      const photoValues = [location, new_listing_id];
-      helpers.newListingPhoto(photoValues)
-      .then(resp => {
-        return res.redirect('/my-listings');
+      .then(response => {
+        const new_listing_id = response.rows[0].id;
+        const photoValues = [location, new_listing_id];
+        helpers.newListingPhoto(photoValues)
+          .then(() => {
+            return res.redirect('/my-listings');
+          })
+          .catch(err => {
+            return err;
+          });
       })
-      .catch(err => {return err})
-    })
-    .catch(err => {return err})
+      .catch(err => {
+        return err;
+      });
   }
 });
 
@@ -225,23 +245,33 @@ app.post('/new-listing', (req, res) => {
 app.post('/my-listings/:listing_id/sold', (req, res) => {
   const listing = req.params.listing_id;
   return helpers.setListingToSold(listing)
-  .then(res => {return res.redirect('back')})
-  .catch(err => {return err})
+    .then(() => {
+      return res.redirect('back');
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
   const session_user = req.cookies.id;
   const listing_id = req.params.listing_id;
   return helpers.checkUser(session_user)
-  .then(response => {
-    const listing_user = response.rows[0].user_id;
-    if (listing_user === session_user || response.rows[0].is_admin) {
-      return helpers.deleteListing(Number(listing_id))
-      .then(response => {
-        return res.redirect('/my-listings')
-      })
-    }
-  })
+    .then(response => {
+      const listing_user = response.rows[0].user_id;
+      if (listing_user === session_user || response.rows[0].is_admin) {
+        return helpers.deleteListing(Number(listing_id))
+          .then(() => {
+            return res.redirect('/my-listings');
+          })
+          .catch(err => {
+            return err;
+          });
+      }
+    })
+    .catch(err => {
+      return err;
+    });
 });
 
 app.post('/listing/:listing_id', (req, res) => {
@@ -256,25 +286,34 @@ app.post('/listing/:listing_id', (req, res) => {
           return res.status(404).end("Please login to message the seller");
         } else {
           if (buyer_id === seller_id) {
-            return res.status(404).end("You already own that... Thats exaclty why you broke foo")
+            return res.status(404).end("You already own that... Thats exaclty why you broke foo");
           } else if (!buyer_id) {
             return res.status(404).end("Please login to send a message");
           } else {
             return helpers.getParticularMessage(seller_id, buyer_id, listing_id)
               .then(resp => {
-                const messages = resp.rows;
+                const messages = resp.rows; // check why not used
                 if (!resp.rows.length) {
                   return helpers.messageSeller(buyer_id, seller_id, listing_id, message)
-                    .then(resp => {
+                    .then(() => {
                       return res.redirect('/sent-message');
                     })
+                    .catch(err => {
+                      return err;
+                    });
                 } else {
                   return res.status(404).end('You already sent a message');
                 }
               })
+              .catch(err => {
+                return err;
+              });
           }
         }
       })
+      .catch(err => {
+        return err;
+      });
   } else {
     return res.status(404).end('Please enter a message');
   }
@@ -291,12 +330,18 @@ app.post('/new-favourite', (req, res) => {
     .then(response => {
       if (!response.rows.length) {
         return helpers.addFavourite(user, listing)
-          .then(resp => {
+          .then(() => {
             return res.redirect('/');
+          })
+          .catch(err => {
+            return err;
           });
       } else {
         return res.redirect('/');
       }
+    })
+    .catch(err => {
+      return err;
     });
 });
 
