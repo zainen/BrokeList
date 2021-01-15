@@ -17,7 +17,7 @@ VALUES (1, 'Spoon (Rat included)', 75, FALSE, 'One of my spoons started growing 
   (2, 'Half-Eaten Burrito', 400, FALSE, 'Ate half but then was not hungry anymore. Good condition, clean bite marks.'),
   (2, 'Samsung Touchscreen Phone', 450, TRUE, 'As you can see it is destroyed, but some parts should still work.'),
   (3, 'Banana Slicer', 500, TRUE, 'WARNING: Only use on bananas'),
-  (3, 'Bagpipes', 550, FALSE, "1960s Hendersons. They work but I don't know how to use them."),
+  (3, 'Bagpipes', 550, FALSE, '1960s Hendersons. They work but I don''t know how to use them.'),
   (4, 'iPhone Lightning Connector', 600, TRUE, 'The rest of the cable is missing, but the connector is in excellent condition.'),
   (4, 'Left Shoe (Used-Good Condition)', 650, FALSE, 'Selling my left shoe. Not sure where the right one is. Serious offers only.'),
   (4, 'Toilet Paper Holder (with Bluetooth Speaker)', 700, FALSE, 'Great to fix the ambience in your bathroom');
