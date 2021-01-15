@@ -51,10 +51,7 @@ app.use('/api/widgets', widgetsRoutes(db));
 
 // functions write html to then get rendered by get requests
 
-// templateVars.listings = response.rows
 app.get('/', (req, res) => {
-  //inject html with database
-  // helpers.listings()
   helpers.listings()
   .then(response => {
     let templateVars = {};
@@ -79,7 +76,6 @@ app.get('/filtered', (req, res) => {
     res.render('main', templateVars)
   })
   .catch(err => console.log(err))
-  //inject html with filtered database
 })
 
 app.get('/favourites', (req, res) => {
@@ -111,25 +107,19 @@ app.get('/my-listings', (req, res) => {
   helpers.myListings(user_id)
   .then(response => {
     templateVars.listings = response.rows
-    console.log(response.rows)
     res.render('my-listings', templateVars); // update with other page
   })
   .catch(err => console.log(error))
 });
-// app.get('/alter-listing', (req, res) => {
-//   res.render('new-li'); // update with other page
-// });
-// OR JUST /:listing_id
+
 app.get('/listing/:listing_id', (req, res) => {
   templateVars = {}
   templateVars.cookies = req.cookies;
   const item_id = req.params.listing_id
   helpers.viewListing(item_id)
   .then(response => {
-    console.log(response.rows)
     const listing = response.rows[0]
     if(listing) {
-      console.log(listing.location)
       templateVars.listing = listing
       res.render('listing', templateVars); // update with other page
     } else {
@@ -142,7 +132,6 @@ app.get('/listing/:listing_id', (req, res) => {
 app.get('/messages' , (req, res) => {
   templateVars = {}
   const user_id = req.cookies.id;
-  console.log(user_id)
   helpers.getMessages(user_id)
   .then(response => {
     const buyer_id = user_id ? response.rows[0].buyer_id : 0
@@ -184,7 +173,6 @@ app.post('/', (req, res) => {
   .catch(err => {
     console.log(err)
   })
-// filter
 });
 
 app.post('/logout', (req, res) => {
@@ -193,10 +181,6 @@ app.post('/logout', (req, res) => {
   res.redirect('/')
 });
 
-// app.post('/login', (req, res) => {
-
-// become user
-// })
 app.post('/new-listing', (req, res) => {
   const user = req.cookies.id
   const title = req.body.title ? req.body.title : 'Somebody forgot a title'
@@ -207,7 +191,6 @@ app.post('/new-listing', (req, res) => {
   if (!req.cookies.id) {
     res.status(404).end('Please login to post');
   } else {
-console.log*('here')
     helpers.newListing(values)
     .then(response => {
       const new_listing_id = response.rows[0].id
@@ -221,8 +204,6 @@ console.log*('here')
     })
     .catch(error => console.log(error))
   }
-    // new post data -> saved to db
-  // after taking the req
 });
 
 
@@ -230,11 +211,9 @@ console.log*('here')
 app.post('/my-listings/:listing_id/sold', (req, res) => {
   //write function change is_sold to true
   const listing = req.params.listing_id;
-
   helpers.setListingToSold(listing)
-  .then(res => console.log(res))
+  .then(res => {return res})
   .catch(err => console.log('err:', err));
-
   res.redirect('back');
 });
 
@@ -265,10 +244,7 @@ app.post('/listing/:listing_id', (req, res) => {
       const seller_id = response.rows[0].user_id
       if (!buyer_id) {
         res.status(404).end("Please login to message the seller")
-
       } else {
-
-        console.log(message, buyer_id, seller_id)
         if (buyer_id === seller_id) {
           res.status(404).end("You already own that... Thats exaclty why you broke foo")
         } else if (!buyer_id) {
@@ -290,15 +266,10 @@ app.post('/listing/:listing_id', (req, res) => {
         }
       }
     })
-
-      //have message, buyer_id, listing_id
-
   } else {
     const listing_id = req.params.listing_id
     res.status(404).end('Please enter a message')
   }
-  //message to user message sent
-
 });
 
 app.post('/new-favourite', (req, res) => {

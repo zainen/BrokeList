@@ -19,9 +19,7 @@
       <h1> Recieved Messages </h1>
       <% for (message of messages) { %>
         <% if (message.seller_id === Number(cookies.id)) { %>
-
           <div class="cell">
-            <!-- add listing_id && title -->
               <b>Listing title: <a href="/listing/<%= message.listing_id %>"> <%= message.title %> </a></b>
             <div class="phone-email">
               <b>
