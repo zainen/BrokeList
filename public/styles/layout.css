@@ -192,3 +192,8 @@ a {
 button {
   outline: none;
 }
+
+.slogan {
+  display:flex;
+  justify-content: center;
+}
