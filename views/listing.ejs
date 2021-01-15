@@ -23,7 +23,7 @@
           <img class="listing-image" src="<%= listing.location %>">
         </div>
         <h2>$<%= ((listing.price_in_cents)/100).toFixed(2) %></h2>
-        <form method="POST" action="/new-favourite">
+        <form method="POST" action="/new-favourite" id="favourites-listing">
           <button class="favourites-buttons" type="submit" name="YASS_PLEEZ" value="<%= listing.listing_id %>"><img src="../media/heart.png"></button>
         </form>
         </div>
