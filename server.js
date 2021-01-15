@@ -309,7 +309,7 @@ app.post('/listing/:listing_id', (req, res) => {
 app.post('/new-favourite', (req, res) => {
   const user = req.cookies.id;
   if (!user) {
-    return res.status(404).end("Please login tofavourites or we cant keep your favourites");
+    return res.status(404).end("Please login to favourites or we cant keep your favourites");
 
   }
   const listing = req.body.YASS_PLEEZ;
