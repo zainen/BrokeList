@@ -89,18 +89,6 @@ const getMessages = (seller_id) => {
 }
 exports.getMessages = getMessages;
 
-//  THIS WHOLE FUNCTION NOT USED. DOUBLE CHECK
-const getNewestListing = () => {
-  return db.query(`
-  SELECT *
-  FROM listings
-  ORDER BY id DESC
-  LIMIT 1
-  `)
-};
-
-exports.getNewestListing = getNewestListing;
-
 const getParticularMessage = (seller_id, user_id, listing_id) => {
   const arr = [seller_id, user_id, Number(listing_id)]
   console.log(arr)
@@ -179,17 +167,6 @@ const newListingPhoto = (items) => {
 };
 exports.newListingPhoto = newListingPhoto;
 
-
-
-
-
-
-
-
-
-
-
-//sold listings
 const setListingToSold = (listing) => {
   const query = [listing];
 
@@ -200,9 +177,6 @@ const setListingToSold = (listing) => {
   `, query)
 };
 exports.setListingToSold = setListingToSold;
-
-
-
 
 const viewListing = (id) => {
   const value = [id];
