@@ -13,14 +13,14 @@ VALUES ('Johnny', 'johnny@johnny.com', '7807807808', TRUE),
 INSERT INTO listings (user_id, title, price_in_cents, is_sold, description)
 VALUES (1, 'Spoon (Rat included)', 75, FALSE, 'One of my spoons started growing a rat. I dont want it anymore'),
   (1, 'Desk Built for Gaming', 430, FALSE, 'Missing a leg but can be held up with a speaker or something. This baby got me to 10th prestige in MW2.'),
-  (1, 'Keyboard (Extra Loud w/ RGB', 300, FALSE, 'Assert your dominance in every Zoom Meeting by making sure everyone hears each keypress you make. Purchased for $250, willing to sell for $3. Serious offers only.'),
+  (1, 'Keyboard (Extra Loud w/ RGB)', 300, FALSE, 'Assert your dominance in every Zoom Meeting by making sure everyone hears each keypress you make. Purchased for $250, willing to sell for $3. Serious offers only.'),
   (2, 'Half-Eaten Burrito', 400, FALSE, 'Ate half but then was not hungry anymore. Good condition, clean bite marks.'),
   (2, 'Samsung Touchscreen Phone', 450, TRUE, 'As you can see it is destroyed, but some parts should still work.'),
   (3, 'Banana Slicer', 500, TRUE, 'WARNING: Only use on bananas'),
-  (3, 'Bagpipes', 550, FALSE, '1960s Hendersons. They work but I do not know how to use them.'),
-  (4, 'iPhone Lightning Connector', 600, TRUE, 'The rest of the cable is missing, but the connector is in excellent condiiton.'),
+  (3, 'Bagpipes', 550, FALSE, "1960s Hendersons. They work but I don't know how to use them."),
+  (4, 'iPhone Lightning Connector', 600, TRUE, 'The rest of the cable is missing, but the connector is in excellent condition.'),
   (4, 'Left Shoe (Used-Good Condition)', 650, FALSE, 'Selling my left shoe. Not sure where the right one is. Serious offers only.'),
-  (4, 'Toilet Paper Holder (with Bluetooth Speaker', 700, FALSE, 'Great to fix the ambience in your bathroom');
+  (4, 'Toilet Paper Holder (with Bluetooth Speaker)', 700, FALSE, 'Great to fix the ambience in your bathroom');
 
 --Favourites table seeds
 
