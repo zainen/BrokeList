@@ -52,7 +52,7 @@ const favourites = (user) => {
   FROM favourites
   JOIN listings ON listings.id = listing_id
   JOIN photos ON listings.id = photos.listing_id
-  WHERE favourites.user_id = $1;
+  WHERE favourites.user_id = $1 AND is_sold = false;
   `, values)
 };
 exports.favourites = favourites;
