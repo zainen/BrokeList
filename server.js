@@ -42,12 +42,6 @@ app.use(cookieParser());
 // const sentPage = require('./routes/sent-messages');
 
 
-// CHECK IF USE
-const { response } = require('express'); // not used
-const { resolveInclude } = require('ejs'); // not used
-
-
-
 // ~~~~~~~~~~~~~~ STRETCH ADD USE OF ROUTES ~~~~~~~~~~~~~~
 
 
