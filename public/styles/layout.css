@@ -181,5 +181,5 @@ nav {
 
 .email-to {
   display: flex;
-  justify-content: row;
+  flex-direction: row;
 }

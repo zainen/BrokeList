@@ -3,10 +3,10 @@ require('dotenv').config();
 
 // Web server config
 const PORT       = process.env.PORT || 8080;
-const ENV        = process.env.ENV || 'development';
+const ENV        = process.env.ENV || 'development'; // not used
 const express    = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const app        = express();
 const morgan     = require('morgan');
 
@@ -16,7 +16,7 @@ const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
 
-const helpers = require('./helperFunctionsSQL.js')
+const helpers = require('./helperFunctionsSQL.js');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -30,16 +30,33 @@ app.use(cookieParser());
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require('./routes/users');
-const widgetsRoutes = require('./routes/widgets');
-const getListings = require('./routes/listings')
-const { response } = require('express');
-const { resolveInclude } = require('ejs');
 
-// Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
-app.use('/api/users', usersRoutes(db));
-app.use('/api/widgets', widgetsRoutes(db));
+
+// ~~~~~~~~~~~~~~ STRECH ADD ROUTES ~~~~~~~~~~~~~~
+// const getListings = require('./routes/listings');
+// const mainPage = require('./routes/mainPage');
+// const listingPage = require('./routes/listing');
+// const messagesPage = require('./routes/messages');
+// const myListingsPage = require('./routes/myListings');
+// const newListingPage = require('./routes/newListing');
+// const sentPage = require('./routes/sent-messages');
+
+
+// CHECK IF USE
+const { response } = require('express'); // not used
+const { resolveInclude } = require('ejs'); // not used
+
+
+
+// ~~~~~~~~~~~~~~ STRETCH ADD USE OF ROUTES ~~~~~~~~~~~~~~
+// app.use('/new-listing')
+// app.use('/my-listings')
+// app.use('/listing')
+// app.use('/messages')
+// app.use('/new-message')
+// app.use('**')
+
+
 // app.use('/listings', getListings(db))
 // Note: mount other resources here, using the same pattern above
 
@@ -52,70 +69,70 @@ app.use('/api/widgets', widgetsRoutes(db));
 // functions write html to then get rendered by get requests
 
 app.get('/', (req, res) => {
-  helpers.listings()
-  .then(response => {
-    let templateVars = {};
-    templateVars.listings = response.rows;
-    templateVars.cookies = req.cookies;
-    res.render('main', templateVars);
-  })
-  .catch(err => console.log(err))
+  return helpers.listings()
+    .then(response => {
+      let templateVars = {};
+      templateVars.listings = response.rows;
+      templateVars.cookies = req.cookies;
+      res.render('main', templateVars);
+    })
+    .catch(err => {return err})
 });
 
 // add :min&:max
 app.get('/filtered', (req, res) => {
-  templateVars = {}
+  templateVars = {};
   templateVars.cookies = req.cookies;
   const min = req.query.min;
   const max = req.query.max;
-  const numMax = isNaN(Number(max)) || max === '' ? Infinity : Number(max) * 100
-  const numMin = isNaN(Number(min)) || min === '' ? 0 : Number(min) * 100
-  helpers.listings()
-  .then (response => {
-    templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
-    res.render('main', templateVars)
-  })
-  .catch(err => console.log(err))
-})
+  const numMax = isNaN(Number(max)) || max === '' ? Infinity : Number(max) * 100;
+  const numMin = isNaN(Number(min)) || min === '' ? 0 : Number(min) * 100;
+  return helpers.listings()
+    .then (response => {
+      templateVars.listings = helpers.filterPrice(response.rows, numMin, numMax)
+      res.render('main', templateVars)
+    })
+    .catch(err => {return err})
+});
 
 app.get('/favourites', (req, res) => {
   const user_id = req.cookies.id;
-  templateVars = {}
+  templateVars = {};
   templateVars.cookies = req.cookies;
   if (!user_id) {
-    res.status(404).end("Please login to see favourites")
+    res.status(404).end("Please login to see favourites");
   }
 
   helpers.favourites(Number(user_id))
   .then(response => {
-    templateVars.listings = response.rows
-    res.render('main', templateVars)
+    templateVars.listings = response.rows;
+    res.render('main', templateVars);
   })
-  .catch(err => console.log(err))
-})
+  .catch(err => {return err})
+});
 
 app.get('/new-listing', (req, res) => {
-  templateVars = {}
+  templateVars = {};
   templateVars.cookies = req.cookies;
   res.render('new-listing', templateVars); // update with other page
 });
 
 app.get('/my-listings', (req, res) => {
-  templateVars = {}
-  const user_id = req.cookies.id
+  templateVars = {};
+  const user_id = req.cookies.id;
   templateVars.cookies = req.cookies;
   helpers.myListings(user_id)
   .then(response => {
-    templateVars.listings = response.rows
+    templateVars.listings = response.rows;
     res.render('my-listings', templateVars); // update with other page
   })
-  .catch(err => console.log(error))
+  .catch(err => {return err})
 });
 
 app.get('/listing/:listing_id', (req, res) => {
-  templateVars = {}
+  templateVars = {};
   templateVars.cookies = req.cookies;
-  const item_id = req.params.listing_id
+  const item_id = req.params.listing_id;
   helpers.viewListing(item_id)
   .then(response => {
     const listing = response.rows[0]
@@ -126,7 +143,7 @@ app.get('/listing/:listing_id', (req, res) => {
       res.redirect('/')
     }
   })
-  .catch(err => console.log(err))
+  .catch(err => {return err})
 });
 
 app.get('/messages' , (req, res) => {
@@ -143,10 +160,10 @@ app.get('/messages' , (req, res) => {
       templateVars.messages = response.rows
       res.render('messages', templateVars)
     })
-    .catch(err => console.log(err))
+    .catch(err => {return err})
   })
-  .catch(error => console.log(error))
-})
+  .catch(err => {return err})
+});
 
 app.get('/sent-message', (req, res) => {
   templateVars.cookies = req.cookies.id
@@ -155,142 +172,133 @@ app.get('/sent-message', (req, res) => {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SERVER POST REQUESTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.post('/', (req, res) => {
-  const user = req.body.user
+  const user = req.body.user;
   helpers.checkUser(user)
   .then(response => {
     if (!response.rows[0]) {
-    return res.status(401).end('Incorrect Username!')
+    return res.status(401).end('Incorrect Username!');
     } else  {
       if (response.rows[0].user_id === Number(user)) {
-        const is_admin = response.rows[0].is_admin ? response.rows[0].is_admin : false
-        res.cookie('is_admin', is_admin)
-        res.cookie('id', user)
-        req.cookies.user_id = user
-        res.redirect('/')
+        const is_admin = !!response.rows[0].is_admin;
+        res.cookie('is_admin', is_admin);
+        res.cookie('id', user);
+        req.cookies.user_id = user;
+        res.redirect('/');
       }
     }
   })
-  .catch(err => {
-    console.log(err)
-  })
+  .catch(err => {return err})
 });
 
 app.post('/logout', (req, res) => {
-  res.clearCookie('id')
-  res.clearCookie('is_admin')
-  res.redirect('/')
+  res.clearCookie('id');
+  res.clearCookie('is_admin');
+  res.redirect('/');
 });
 
 app.post('/new-listing', (req, res) => {
-  const user = req.cookies.id
-  const title = req.body.title ? req.body.title : 'Somebody forgot a title'
-  const price = Number(req.body.price_in_cents) * 100 ? Number(req.body.price_in_cents) * 100 : 0
-  const description = req.body.description ? req.body.description : 'Someone is broke and needs money... Maybe you message them and check how they are doing.'
-  const location = req.body.location ? req.body.location : '../media/default.jpg'
+  const user = req.cookies.id;
+  const title = req.body.title ? req.body.title : 'Somebody forgot a title';
+  const price = Number(req.body.price_in_cents) * 100 ? Number(req.body.price_in_cents) * 100 : 0;
+  const description = req.body.description ? req.body.description : 'Someone is broke and needs money... Maybe you message them and check how they are doing.';
+  const location = req.body.location ? req.body.location : '../media/default.jpg';
   const values = [user, title, price, description];
   if (!req.cookies.id) {
-    res.status(404).end('Please login to post');
+    return res.status(404).end('Please login to post');
   } else {
-    helpers.newListing(values)
+    return helpers.newListing(values)
     .then(response => {
-      const new_listing_id = response.rows[0].id
-      const photoValues = [location, new_listing_id]
+      const new_listing_id = response.rows[0].id;
+      const photoValues = [location, new_listing_id];
       helpers.newListingPhoto(photoValues)
       .then(resp => {
-        res.redirect('/my-listings')
-        return resp.rows
+        return res.redirect('/my-listings');
       })
-      .catch(err => console.log(err))
+      .catch(err => {return err})
     })
-    .catch(error => console.log(error))
+    .catch(err => {return err})
   }
 });
 
 
 
 app.post('/my-listings/:listing_id/sold', (req, res) => {
-  //write function change is_sold to true
   const listing = req.params.listing_id;
-  helpers.setListingToSold(listing)
-  .then(res => {return res})
-  .catch(err => console.log('err:', err));
-  res.redirect('back');
+  return helpers.setListingToSold(listing)
+  .then(res => {return res.redirect('back')})
+  .catch(err => {return err})
 });
 
 app.post('/my-listings/:listing_id/delete', (req, res) => {
-  // write function clear listing from db
-  const session_user = req.cookies.id
-  const listing_id = req.params.listing_id
-  helpers.checkUser(session_user)
+  const session_user = req.cookies.id;
+  const listing_id = req.params.listing_id;
+  return helpers.checkUser(session_user)
   .then(response => {
-    const listing_user = response.rows[0].user_id
+    const listing_user = response.rows[0].user_id;
     if (listing_user === session_user || response.rows[0].is_admin) {
-      helpers.deleteListing(Number(listing_id))
+      return helpers.deleteListing(Number(listing_id))
       .then(response => {
-        res.redirect('/my-listings')
+        return res.redirect('/my-listings')
       })
     }
   })
 });
 
 app.post('/listing/:listing_id', (req, res) => {
-  //sql function to select data needed to render page
   if ((req.body.inquiry.trim()).length) {
-    const listing_id = req.params.listing_id
-    helpers.getListingByListing_id(listing_id)
-    .then(response => {
-      const message = req.body.inquiry
-      const buyer_id = Number(req.cookies.id)
-      const seller_id = response.rows[0].user_id
-      if (!buyer_id) {
-        res.status(404).end("Please login to message the seller")
-      } else {
-        if (buyer_id === seller_id) {
-          res.status(404).end("You already own that... Thats exaclty why you broke foo")
-        } else if (!buyer_id) {
-          res.status(404).end("Please login to send a message")
+    const listing_id = req.params.listing_id;
+    return helpers.getListingByListing_id(listing_id)
+      .then(response => {
+        const message = req.body.inquiry;
+        const buyer_id = Number(req.cookies.id);
+        const seller_id = response.rows[0].user_id;
+        if (!buyer_id) {
+          return res.status(404).end("Please login to message the seller");
         } else {
-          helpers.getParticularMessage(seller_id, buyer_id, listing_id)
-          .then(resp => {
-            // console.log(resp.rows)
-            const messages = resp.rows
-            if (!resp.rows.length) {
-              helpers.messageSeller(buyer_id, seller_id, listing_id, message)
+          if (buyer_id === seller_id) {
+            return res.status(404).end("You already own that... Thats exaclty why you broke foo")
+          } else if (!buyer_id) {
+            return res.status(404).end("Please login to send a message");
+          } else {
+            return helpers.getParticularMessage(seller_id, buyer_id, listing_id)
               .then(resp => {
-                res.redirect('/sent-message')
+                const messages = resp.rows;
+                if (!resp.rows.length) {
+                  return helpers.messageSeller(buyer_id, seller_id, listing_id, message)
+                    .then(resp => {
+                      return res.redirect('/sent-message');
+                    })
+                } else {
+                  return res.status(404).end('You already sent a message');
+                }
               })
-            } else {
-              res.status(404).end('You already sent a message')
-            }
-          })
+          }
         }
-      }
-    })
+      })
   } else {
-    const listing_id = req.params.listing_id
-    res.status(404).end('Please enter a message')
+    return res.status(404).end('Please enter a message');
   }
 });
 
 app.post('/new-favourite', (req, res) => {
-  const user = req.cookies.id
+  const user = req.cookies.id;
   if (!user) {
-    res.status(404).end("Please login tofavourites or we cant keep your favourites")
+    return res.status(404).end("Please login tofavourites or we cant keep your favourites");
 
   }
-  const listing = req.body.YASS_PLEEZ
-  helpers.checkForFavourite(user, listing)
-  .then(response => {
-    if (!response.rows.length) {
-      helpers.addFavourite(user, listing)
-      .then(resp => {
-        res.redirect('/')
-      })
-    } else {
-      res.redirect('/')
-    }
-  })
-})
+  const listing = req.body.YASS_PLEEZ;
+  return helpers.checkForFavourite(user, listing)
+    .then(response => {
+      if (!response.rows.length) {
+        return helpers.addFavourite(user, listing)
+          .then(resp => {
+            return res.redirect('/');
+          });
+      } else {
+        return res.redirect('/');
+      }
+    });
+});
 
 // STRECH ADD REMOVE FAVOURITE
 

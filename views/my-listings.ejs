@@ -22,7 +22,7 @@
       <% if (!listing.is_sold && listing.user_id === Number(cookies.id)) { %>
 
         <div class = "cell">
-          <div>
+          <div class="image-title">
             <a href="/listing/<%= listing.listing_id %>">
               <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
               <%= listing.title %>
@@ -47,10 +47,13 @@
         <% if (listing.is_sold && listing.user_id === Number(cookies.id)) { %>
 
           <div class = "cell">
-            <a href="/listing/<%= listing.id %>">
-              <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
-              <%= listing.title %>
-            </a>
+            <div class="image-title">
+
+              <a href="/listing/<%= listing.id %>">
+                <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
+                <%= listing.title %>
+              </a>
+            </div>
             <form method="POST" action="my-listings/<%= listing.listing_id %>/delete">
               <button class= main-listing-buttons type="submit" name="delete-listing-id" value="<%= listing.id %>">Delete</button>
             </form>
@@ -63,10 +66,13 @@
         <% for (listing of listings) { %>
           <% if (!listing.is_sold && listing.user_id !== Number(cookies.id)) { %>
             <div class = "cell">
-              <a href="/listing/<%= listing.id %>">
-                <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
-                <%= listing.title %>
-              </a>
+              <div class="image-title">
+
+                <a href="/listing/<%= listing.id %>">
+                  <img class="display-image" src="<%= listing.location %>" alt="media/default.jpg">
+                  <%= listing.title %>
+                </a>
+              </div>
               <form method="POST" action="my-listings/<%= listing.listing_id %>/delete">
                 <button class= main-listing-buttons type="submit" name="delete-listing-id" value="<%= listing.id %>">Delete</button>
               </form>
