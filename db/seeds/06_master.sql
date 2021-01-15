@@ -20,7 +20,7 @@ VALUES (1, 'Spoon (Rat included)', 75, FALSE, 'One of my spoons started growing 
   (3, 'Bagpipes', 550, FALSE, '1960s Hendersons. They work but I do not know how to use them.'),
   (4, 'iPhone Lightning Connector', 600, TRUE, 'The rest of the cable is missing, but the connector is in excellent condiiton.'),
   (4, 'Left Shoe (Used-Good Condition)', 650, FALSE, 'Selling my left shoe. Not sure where the right one is. Serious offers only.'),
-  (4, 'Toilet Paper Holder (with Bluetooth Speaker', 700, FALSE, 'Great to fix the ambience in your bathroom'),
+  (4, 'Toilet Paper Holder (with Bluetooth Speaker', 700, FALSE, 'Great to fix the ambience in your bathroom');
 
 --Favourites table seeds
 
