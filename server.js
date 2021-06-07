@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 // Web server config
-const PORT       = 62210
+const PORT       = process.env.PORT || 8080;
 const ENV        = process.env.ENV || 'development'; // not used
 const express    = require('express');
 const bodyParser = require('body-parser');
