@@ -37,8 +37,11 @@ const runSeedFiles = function () {
 try {
   console.log(`-> Connecting to PG using ${connectionString} ...`);
   client.connectSync(connectionString);
+  console.log('pass connect')
   runSchemaFiles();
+  console.log('pass schema')
   runSeedFiles();
+  console('pass seed')
   client.end();
 } catch (err) {
   console.error(chalk.red(`Failed due to error: ${err}`));
