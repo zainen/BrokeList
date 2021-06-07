@@ -36,6 +36,7 @@ const runSeedFiles = function () {
 
 try {
   console.log(`-> Connecting to PG using ${connectionString} ...`);
+  console.log('did not pass')
   client.connectSync(connectionString);
   console.log('pass connect')
   runSchemaFiles();
